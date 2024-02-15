@@ -27,10 +27,6 @@ function Sidebar() {
                   </Link>
                 ))}
               </ul>
-<<<<<<< HEAD
-=======
-              
->>>>>>> 12c19e3e32c8693dfa9fc23efb71ea30dc2a697b
             </span>
             <FreeCard/>
           </div>
