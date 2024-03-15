@@ -17,13 +17,13 @@ function Apis() {
   const [subscribedApisLoading, setSubscribedApisLoading] = useState(false);
   var apikeysreq = {
     method: 'POST',
-    url: 'https://santechapiback.vercel.app/getapiKeys',
+    url: 'https://santechapi-backend.vercel.app/getapiKeys',
     headers: {'Content-Type': 'application/json','secret':secret},
     data: {email: user.email}
   };
   var options = {
     method: 'POST',
-    url: 'https://santechapiback.vercel.app/getsubscribedapis',
+    url: 'https://santechapi-backend.vercel.app/getsubscribedapis',
     headers: {'Content-Type': 'application/json','secret':secret},
     data: {email: user.email}
   };
@@ -87,7 +87,7 @@ function Apis() {
     try {
       var deleteapireq = {
         method: 'POST',
-        url: `https://santechapiback.vercel.app/deleteapiKeys/${token}`,
+        url: `https://santechapi-backend.vercel.app/deleteapiKeys/${token}`,
         headers: {'Content-Type': 'application/json','secret':secret},
         data: {email: user.email}
       };
@@ -128,7 +128,7 @@ function Apis() {
     try {
       var createapireq = {
         method: 'POST',
-        url: `https://santechapiback.vercel.app/createapikey`,
+        url: `https://santechapi-backend.vercel.app/createapikey`,
         headers: {'Content-Type': 'application/json','secret':secret},
         data: {email: user.email}
       };
@@ -160,7 +160,7 @@ function Apis() {
     try {
       var createapireq = {
         method: 'POST',
-        url: `https://santechapiback.vercel.app/removeSubscribeApi/${api.name}`,
+        url: `https://santechapi-backend.vercel.app/removeSubscribeApi/${api.name}`,
         headers: {'Content-Type': 'application/json','secret':secret},
         data: {email: user.email}
       };

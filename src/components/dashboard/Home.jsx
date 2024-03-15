@@ -18,7 +18,7 @@ function Home() {
     const username = user?.email?.split("@")[0].replace(/[^a-zA-Z]/g, "") || "";
 	var fetchcountreq = {
         method: 'POST',
-        url: `https://santechapiback.vercel.app/getcounts`,
+        url: `https://santechapi-backend.vercel.app/getcounts`,
         headers: {'Content-Type': 'application/json','secret':secret},
         data: {email: user.email}
       };

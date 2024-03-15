@@ -17,7 +17,7 @@ function Profile() {
     try {
       var recentreq = {
         method: 'POST',
-        url: `https://santechapiback.vercel.app/getsubscribedapis`,
+        url: `https://santechapi-backend.vercel.app/getsubscribedapis`,
         headers: {'Content-Type': 'application/json','secret':secret},
         data: {email: user.email}
       };
