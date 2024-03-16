@@ -14,7 +14,7 @@ function Pricing() {
     <div class="flex flex-wrap justify-center ">
       <div class="p-4 xl:w-[40%] md:w-1/2 w-full">
         <div class="h-full p-6 bg-white shadow-lg rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden">
-          <h1 class="text-3xl font-semibold text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">Free Forever !
+          <h1 class="text-3xl font-semibold text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">Proudly Free Forever !
           <h3 className="text-sm font-normal ms-3 mt-2">For beginers who are
 just starting out.</h3>
           </h1>
@@ -90,6 +90,7 @@ businesses.</h3>
       </div>
     </div>
   </div>
+  
 </section>
   )
 }

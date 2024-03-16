@@ -8,8 +8,8 @@ export const secret = "sannisaprthisrilila";
 export const main_links = [
     { name: "Home", link: "/home" },
     { name: "Api List", link: "/apilist" },
-    { name: "Contact", link: "/contact" },
-    { name: "Pricing", link: "/pricing" },
+    { name: "Connect & cost", link: "/contact" },
+    { name: "API tool", link: "https://santechapitool.vercel.app/" },
     { name: "Docs", link: "https://santhoshs-organization-1.gitbook.io/santech-api-hub-docs/" },
   ];
 

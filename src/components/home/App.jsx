@@ -14,6 +14,7 @@ import Steps from "./steps";
 import Testimonials from "./testimonials";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import HomeContact from "./homecontact";
 
 
 function App() {
@@ -47,10 +48,10 @@ function App() {
     <Steps/>
     <Testimonials/>
     <Pricing/>
-    <Contact/>
+    <HomeContact/>
     <Footer/>
     <ToastContainer/>
-    </ div>
+    </div>
   );
 }
 

@@ -5,6 +5,7 @@ import nokey from '../assert/No data-cuate.svg';
 import Header from './header';
 import Notificationbanner from './notificationbanner';
 import { Link } from 'react-router-dom';
+import Footer from './footer';
 
 function ApiHubs() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -142,6 +143,7 @@ function ApiHubs() {
         </div>
       )}
     </div>
+    <Footer/>
    </div>
   );
 }
