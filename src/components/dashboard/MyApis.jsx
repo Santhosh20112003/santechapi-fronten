@@ -126,30 +126,20 @@ function Apis() {
     setLoading(true);
 
     try {
-      var createapireq = {
+      const createApiReq = {
         method: "POST",
         url: `https://santechapi-backend.vercel.app/createapikey`,
         headers: { "Content-Type": "application/json", secret: secret },
         data: { email: user.email },
       };
-      const result = await axios.request(createapireq);
-      if (result.status === 200 && result.data.email) {
-        toast.success(
-          "Your API Key has been successfully generated and sent to your email.",
-          {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          }
-        );
-      }
-      if (result.status === 200 && !result.data.email) {
-        toast.success("API Key Created Successfully.", {
+      const result = await axios.request(createApiReq);
+
+      if (result.status === 200) {
+        const successMessage = result.data.email
+          ? "Your API Key has been successfully generated and sent to your email."
+          : "API Key Created Successfully.";
+
+        toast.success(successMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -159,8 +149,9 @@ function Apis() {
           progress: undefined,
           theme: "colored",
         });
+
+        setApiKeys([...apiKeys, { key: result.data.token, copied: false }]);
       }
-      setApiKeys([...apiKeys, { key: result.data.token, copied: false }]);
     } catch (error) {
       handleApiError(error);
     } finally {
