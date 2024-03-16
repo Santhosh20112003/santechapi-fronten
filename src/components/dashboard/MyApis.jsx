@@ -133,8 +133,23 @@ function Apis() {
         data: { email: user.email },
       };
       const result = await axios.request(createapireq);
-      if (result.status === 200) {
-        toast.success("API Key Created Successfully", {
+      if (result.status === 200 && result.data.email) {
+        toast.success(
+          "Your API Key has been successfully generated and sent to your email.",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+      }
+      if (result.status === 200 && !result.data.email) {
+        toast.success("API Key Created Successfully.", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
