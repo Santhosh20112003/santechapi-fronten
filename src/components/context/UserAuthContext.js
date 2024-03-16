@@ -15,7 +15,7 @@ const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
-  const [apis,setapis] = useState([null]);
+  const [apis, setapis] = useState([null]);
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -32,19 +32,18 @@ export function UserAuthContextProvider({ children }) {
     return signInWithPopup(auth, googleAuthProvider);
   }
   function GithubSignIn() {
-    const githubAuthProvider  = new GithubAuthProvider();
+    const githubAuthProvider = new GithubAuthProvider();
     return signInWithPopup(auth, githubAuthProvider);
   }
-  function forgetpassword(email){
-  return sendPasswordResetEmail(auth,email)
+  function forgetpassword(email) {
+    return sendPasswordResetEmail(auth, email);
   }
- 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       setUser(currentuser);
     });
-    
+
     return () => {
       unsubscribe();
     };
@@ -52,7 +51,18 @@ export function UserAuthContextProvider({ children }) {
 
   return (
     <userAuthContext.Provider
-      value={{ user,apis, logIn, signUp, logOut, googleSignIn ,forgetpassword,GithubSignIn}}>
+      value={{
+        user,
+        apis,
+        setapis,
+        logIn,
+        signUp,
+        logOut,
+        googleSignIn,
+        forgetpassword,
+        GithubSignIn,
+      }}
+    >
       {children}
     </userAuthContext.Provider>
   );

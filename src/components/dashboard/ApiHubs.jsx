@@ -1,36 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { secret } from '../common/links';
-import nokey from '../assert/No data-cuate.svg';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useUserAuth } from '../context/UserAuthContext';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { secret } from "../common/links";
+import nokey from "../assert/No data-cuate.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useUserAuth } from "../context/UserAuthContext";
 
 function ApiHubs() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [apis, setApis] = useState([{}]);
   const [filteredApis, setFilteredApis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const { user } = useUserAuth();
-  const [updatedApi,setupdatedApi] = useState(false);
-  
+  const [updatedApi, setupdatedApi] = useState(false);
+
   var subscribedapireq = {
-    method: 'POST',
-    url: 'https://santechapi-backend.vercel.app/getallapis',
-    headers: {'Content-Type': 'application/json','secret':secret},
-    data: {email: user.email}
+    method: "POST",
+    url: "https://santechapi-backend.vercel.app/getallapis",
+    headers: { "Content-Type": "application/json", secret: secret },
+    data: { email: user.email },
   };
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.request(subscribedapireq);
-      const updatedApis = response.data.map(api => ({ ...api, loading: false }));
+      const updatedApis = response.data.map((api) => ({
+        ...api,
+        loading: false,
+      }));
       setApis(updatedApis);
       setFilteredApis(updatedApis);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
       setApis([]);
       setLoading(false);
     }
@@ -44,65 +47,64 @@ function ApiHubs() {
     fetchData();
   }, [updatedApi]);
 
-
   const subscribe = async (apiItem) => {
     try {
-      const updatedApis = apis.map(api => {
+      const updatedApis = apis.map((api) => {
         if (api.name === apiItem.name) {
           return { ...api, loading: true };
         }
         return api;
       });
       setApis([updatedApis]);
-      console.log( apiItem.loading);
+      console.log(apiItem.loading);
       const subscribereq = {
-        method: 'POST',
-        url: `https://santechapiback.vercel.app/addSubscribeApi/${apiItem.name}`,
-        headers: {'Content-Type': 'application/json','secret':secret},
-        data: {email: user.email}
+        method: "POST",
+        url: `https://santechapi-backend.vercel.app/addSubscribeApi/${apiItem.name}`,
+        headers: { "Content-Type": "application/json", secret: secret },
+        data: { email: user.email },
       };
       const response = await axios.request(subscribereq);
       if (response.status === 200) {
         setupdatedApi(!updatedApi);
         toast.info(`${apiItem.name} API is Subscribed`, {
-          position: 'top-center',
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'light',
+          theme: "light",
         });
       }
     } catch (err) {
-      if(err.response && err.response.status === 403){
-        console.error('Error subscribing:', err);
+      if (err.response && err.response.status === 403) {
+        console.error("Error subscribing:", err);
         toast.info(`Create Api Key in order to Subscribe to an API`, {
-          position: 'top-center',
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'light',
+          theme: "light",
         });
       } else {
-        console.error('Error subscribing:', err);
+        console.error("Error subscribing:", err);
         toast.error(`Error occurred with ${err}`, {
-          position: 'top-center',
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'colored',
+          theme: "colored",
         });
       }
     } finally {
-      const updatedApis = apis.map(api => {
+      const updatedApis = apis.map((api) => {
         if (api.name === apiItem.name) {
           return { ...api, loading: false };
         }
@@ -116,7 +118,9 @@ function ApiHubs() {
     e.preventDefault();
     setLoading(true);
 
-    const filtered = apis.filter((api) => api.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const filtered = apis.filter((api) =>
+      api.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     setLoading(false);
 
@@ -199,9 +203,18 @@ function ApiHubs() {
         <div className="mt-3">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
             {filteredApis.map((api) => (
-              <div className="p-4 flex items-center justify-center md:block" key={api.name}>
+              <div
+                className="p-4 flex items-center justify-center md:block"
+                key={api.name}
+              >
                 <div className="lg:h-60 h-80 w-full max-w-[500px] bg-gray-500 relative rounded-lg overflow-hidden shadow-lg">
-                {api.subscribed ? (<span className="bg-emerald-500 z-10 text-white px-3 py-1 text-xs absolute right-0 top-0 rounded-bl">Subscribed</span>) :''}
+                  {api.subscribed ? (
+                    <span className="bg-emerald-500 z-10 text-white px-3 py-1 text-xs absolute right-0 top-0 rounded-bl">
+                      Subscribed
+                    </span>
+                  ) : (
+                    ""
+                  )}
                   <img
                     src={api.img}
                     alt=""
@@ -209,7 +222,7 @@ function ApiHubs() {
                   />
                   <span className="absolute left-[10%] text-gray-50 bottom-[10%] pb-3">
                     <h1 className="text-xl font-semibold mb-3">
-                      {api.name} API{' '}
+                      {api.name} API{" "}
                       <a
                         href={api.link}
                         className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
@@ -218,29 +231,43 @@ function ApiHubs() {
                     <p className="leading-relaxed break-words text-gray-200 mb-3">
                       {api.short_desc}
                     </p>
-                    {api.subscribed ? (<button className="px-3 py-2 rounded-md bg-emerald-400 text-white">
-                      Subscribed
-                    </button> ): (<button onClick={()=>{subscribe(api)}} className="px-3 active:scale-90 transition-all py-2 rounded-md bg-violet-500 text-white inline-flex items-center justify-center gap-3">
-                      Subscribe {api.loading ? <svg
-            className="animate-spin w-4 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>:''}
-                    </button>)}
+                    {api.subscribed ? (
+                      <button className="px-3 py-2 rounded-md bg-emerald-400 text-white">
+                        Subscribed
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          subscribe(api);
+                        }}
+                        className="px-3 active:scale-90 transition-all py-2 rounded-md bg-violet-500 text-white inline-flex items-center justify-center gap-3"
+                      >
+                        Subscribe{" "}
+                        {api.loading ? (
+                          <svg
+                            className="animate-spin w-4 text-white"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        ) : (
+                          ""
+                        )}
+                      </button>
+                    )}
                   </span>
                 </div>
               </div>
@@ -248,7 +275,7 @@ function ApiHubs() {
           </div>
         </div>
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

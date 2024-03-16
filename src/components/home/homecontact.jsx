@@ -1,9 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useUserAuth } from "../context/UserAuthContext";
 
 function HomeContact() {
-  const {user} = useUserAuth();
   return (
     <div className="">
       <section id="contact" class="text-gray-600 body-font relative">

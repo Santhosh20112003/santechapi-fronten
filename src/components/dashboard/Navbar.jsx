@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { links, profilepic } from '../common/links';
-import { useUserAuth } from '../context/UserAuthContext';
-import FreeCard from './profilecard';
-
-
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { links, profilepic } from "../common/links";
+import { useUserAuth } from "../context/UserAuthContext";
+import FreeCard from "./profilecard";
 
 function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   let [open, setOpen] = useState(false);
   const location = useLocation();
-  const {user,logOut} = useUserAuth();
+  const { user, logOut } = useUserAuth();
   const toggleNavbar = () => {
     setOpen(!open);
   };
-  let icon =  "fas fa-bars";
+  let icon = "fas fa-bars";
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -43,7 +41,11 @@ function Navbar() {
                 }`}
               >
                 <span className="flex bg-violet-900 h-[10vh] items-center justify-start  ps-4 w-full gap-1">
-                  <img src={require('../assert/santechapi-logo.png')} alt="" className="h-10 w-10" />
+                  <img
+                    src={require("../assert/santechapi-logo.png")}
+                    alt=""
+                    className="h-10 w-10"
+                  />
                   <Link to="/home" className="text-white text-2xl font-bold">
                     SanTech API
                   </Link>
@@ -52,40 +54,52 @@ function Navbar() {
                     className="text-violet-300 fas fa-arrow-left mt-1 text-2xl absolute right-0 pe-2"
                   ></i>
                 </span>
-           
+
                 <span className="flex items-center justify-center w-full mb-3">
-              <Link to="home" className='text-lg mt-3 text-center py-3 mx-5 font-semibold w-full  text-gray-700 rounded-md bg-violet-300' onClick={closeSidebar} ><i className={`fas fa-house me-2`}></i>Overview</Link>
-              </span>
-                <span>
-                {links.map((link) => (
-                  <li
-                    key={link.name}
-                    className="md:ml-8 leading-none pl-9 w-full md:text-xl md:my-0 my-7"
+                  <Link
+                    to="home"
+                    className="text-lg mt-3 text-center py-3 mx-5 font-semibold w-full  text-gray-700 rounded-md bg-violet-300"
+                    onClick={closeSidebar}
                   >
-                    <Link
-                      to={link.link}
-                      className={`text-white px-3 text-xl  py-2 rounded-md ${
-						location.pathname.includes(link.link) ? 'bg-violet-500 text-black font-medium' : ''
-					  }`}
-                      onClick={closeSidebar}
-                    >
-                      <i className={`${link.icon} me-5`}></i>{link.name}
-                    </Link>
-                  </li>
-                ))}
-                <span className="flex items-center justify-center">
-                <FreeCard  />
+                    <i className={`fas fa-house me-2`}></i>Overview
+                  </Link>
                 </span>
+                <span>
+                  {links.map((link) => (
+                    <li
+                      key={link.name}
+                      className="md:ml-8 leading-none pl-9 w-full md:text-xl md:my-0 my-7"
+                    >
+                      <Link
+                        to={link.link}
+                        className={`text-white px-3 text-xl  py-2 rounded-md ${
+                          location.pathname.includes(link.link)
+                            ? "bg-violet-500 text-black font-medium"
+                            : ""
+                        }`}
+                        onClick={closeSidebar}
+                      >
+                        <i className={`${link.icon} me-5`}></i>
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                  <span className="flex items-center justify-center">
+                    <FreeCard />
+                  </span>
                 </span>
               </ul>
-              
             </span>
             <div className="flex-shrink-0 flex items-center mt-0.5">
               <span className="text-white hidden lg:block md:block lg:text-xl text-2xl font-bold ml-1">
-               API Dashboard
+                API Dashboard
               </span>
               <span className="flex lg:hidden ml-2 items-center gap-3 md:hidden">
-              <img src={require('../assert/santechapi-logo.png')} alt="" className="h-12 w-12" />
+                <img
+                  src={require("../assert/santechapi-logo.png")}
+                  alt=""
+                  className="h-12 w-12"
+                />
               </span>
             </div>
           </div>
@@ -96,11 +110,15 @@ function Navbar() {
                 className="flex w-fit items-center cursor-pointer gap-2"
               >
                 <div className="h-12 w-12 rounded-full flex border border-gray-300 items-center justify-center text-white md:text-3xl text-2xl text-center relative">
-                <img src={user.photoURL||profilepic()} alt="user_logo" className='h-10 w-10 rounded-full' />
-                <div className="absolute w-3 h-3 bg-green-500 rounded-full -top-1 right-1 transform md:translate-x-2 translate-x-0 translate-y-2 border border-white"></div>
-                </div>        
+                  <img
+                    src={user.photoURL || profilepic()}
+                    alt="user_logo"
+                    className="h-10 w-10 rounded-full"
+                  />
+                  <div className="absolute w-3 h-3 bg-green-500 rounded-full -top-1 right-1 transform md:translate-x-2 translate-x-0 translate-y-2 border border-white"></div>
+                </div>
               </div>
-              
+
               {isDropdownOpen && (
                 <div className="origin-top-right z-30 absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                   <div
@@ -117,16 +135,16 @@ function Navbar() {
                     >
                       Profile
                     </Link>
-                  
-                    <button
 
-					  onClick={(e)=>{localStorage.removeItem("token");
-            logOut();
-            window.location.href="/home"}}
+                    <button
+                      onClick={(e) => {
+                        localStorage.removeItem("token");
+                        logOut();
+                        window.location.href = "/home";
+                      }}
                       className="block w-full text-start  px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
-                      
-                      >
+                    >
                       Sign out
                     </button>
                   </div>

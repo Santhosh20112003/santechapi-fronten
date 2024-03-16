@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
 import Footer from "./footer";
-import Pricing from "./pricing";
 
 function Contact() {
   const {user} = useUserAuth();
