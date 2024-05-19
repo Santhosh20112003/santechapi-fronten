@@ -5,111 +5,57 @@ import nokey from "../assert/No data-cuate.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useUserAuth } from "../context/UserAuthContext";
+import { useLocation } from "react-router-dom";
 
 function ApiHubs() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [apis, setApis] = useState([{}]);
+  const { user } = useUserAuth();
+  const searchParams = new URLSearchParams(useLocation().search);
+  const QuerySearchParam = searchParams.get("name") || "";
+  const [searchTerm, setSearchTerm] = useState(QuerySearchParam);
+  const [apis, setApis] = useState([]);
   const [filteredApis, setFilteredApis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const { user } = useUserAuth();
-  const [updatedApi, setupdatedApi] = useState(false);
-
-  var subscribedapireq = {
-    method: "POST",
-    url: "https://santechapi-backend.vercel.app/getallapis",
-    headers: { "Content-Type": "application/json", secret: secret },
-    data: { email: user.email },
-  };
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.request(subscribedapireq);
-      const updatedApis = response.data.map((api) => ({
-        ...api,
-        loading: false,
-      }));
-      setApis(updatedApis);
-      setFilteredApis(updatedApis);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setApis([]);
-      setLoading(false);
-    }
-  };
+  const [updatedApi, setUpdatedApi] = useState(false);
 
   useEffect(() => {
-    fetchData();
-  }, [user]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.post("https://santechapi-backend.vercel.app/getallapis", { email: user.email }, { headers: { "Content-Type": "application/json", secret: secret } });
+        const updatedApis = response.data.map(api => ({ ...api, loading: false }));
+        setApis(updatedApis);
+        setFilteredApis(updatedApis);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setApis([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
     fetchData();
-  }, [updatedApi]);
+  }, [user, updatedApi]);
 
   const subscribe = async (apiItem) => {
     try {
-      const updatedApis = apis.map((api) => {
-        if (api.name === apiItem.name) {
-          return { ...api, loading: true };
-        }
-        return api;
-      });
-      setApis([updatedApis]);
-      console.log(apiItem.loading);
-      const subscribereq = {
-        method: "POST",
-        url: `https://santechapi-backend.vercel.app/addSubscribeApi/${apiItem.name}`,
-        headers: { "Content-Type": "application/json", secret: secret },
-        data: { email: user.email },
-      };
-      const response = await axios.request(subscribereq);
+      const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: true } : api));
+      setApis(updatedApis);
+
+      const response = await axios.post(`https://santechapi-backend.vercel.app/addSubscribeApi/${apiItem.name}`, { email: user.email }, { headers: { "Content-Type": "application/json", secret: secret } });
+
       if (response.status === 200) {
-        setupdatedApi(!updatedApi);
-        toast.info(`${apiItem.name} API is Subscribed`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        setUpdatedApi(!updatedApi);
+        toast.info(`${apiItem.name} API is Subscribed`, { position: "top-center", autoClose: 5000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light" });
       }
     } catch (err) {
       if (err.response && err.response.status === 403) {
-        console.error("Error subscribing:", err);
-        toast.info(`Create Api Key in order to Subscribe to an API`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.info("Create Api Key in order to Subscribe to an API", { position: "top-center", autoClose: 5000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light" });
       } else {
-        console.error("Error subscribing:", err);
-        toast.error(`Error occurred with ${err}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error(`Error occurred with ${err}`, { position: "top-center", autoClose: 5000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "colored" });
       }
     } finally {
-      const updatedApis = apis.map((api) => {
-        if (api.name === apiItem.name) {
-          return { ...api, loading: false };
-        }
-        return api;
-      });
+      const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: false } : api));
       setApis(updatedApis);
     }
   };
@@ -118,19 +64,16 @@ function ApiHubs() {
     e.preventDefault();
     setLoading(true);
 
-    const filtered = apis.filter((api) =>
-      api.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
+    const filtered = apis.filter(api => api.name.toLowerCase().includes(searchTerm.toLowerCase()));
     setLoading(false);
 
     if (filtered.length > 0) {
       setNotFound(false);
-      setFilteredApis(filtered);
     } else {
       setNotFound(true);
-      setFilteredApis([]);
     }
+
+    setFilteredApis(filtered);
   };
 
   return (

@@ -5,6 +5,7 @@ import Footer from "./footer";
 
 function Contact() {
   const {user} = useUserAuth();
+  
   return (
     <div className="">
       <section id="contact" class="text-gray-600 body-font relative">
