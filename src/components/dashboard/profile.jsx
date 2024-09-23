@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { profilepic, random_profile_img, secret } from "../common/links";
+import { profilepic, secret } from "../common/links";
 import { useUserAuth } from "../context/UserAuthContext";
 import nosubsImage from "../assert/Subscriber-bro.svg";
 import { Link } from "react-router-dom";
@@ -43,7 +43,7 @@ function Profile() {
     <div className="w-full h-[90vh] flex">
       <span className="w-1/2 hidden lg:block relative bg-gray-700">
         <img
-          src={random_profile_img}
+          src={"https://ik.imagekit.io/santech/APIHUB/lino-thaesler-31kAj6HeTQk-unsplash.jpg?updatedAt=1727116500026"}
           alt=""
           className="w-full h-full object-cover relative brightness-50"
         />
@@ -124,10 +124,11 @@ function Profile() {
                       <span className="absolute md:left-[5%] mx-5 text-gray-50 top-[30%] pb-3">
                         <h1 className="sm:text-2xl inline-flex items-center pe-3 gap-2 text-xl font-semibold mb-3">
                           {api.name} API{" "}
-                          <a
+                          <Link
+                            target="_blank"
                             href={api.link}
                             className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
-                          ></a>{" "}
+                          ></Link>{" "}
                         </h1>
                         <p className="leading-relaxed text-sm text-gray-200 mb-3">
                           {api.short_desc}

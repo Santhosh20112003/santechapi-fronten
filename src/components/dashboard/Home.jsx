@@ -60,6 +60,7 @@ function Home() {
           </p>
           <span className="grid py-10 w-full lg:grid-cols-3 sm:grid-cols-2 grid-cols-1  gap-5 flex-wrap">
             <Link
+              target="_blank"
               to="https://santhoshs-organization-1.gitbook.io/santech-api-hub-docs/"
               className="inline-flex active:scale-90 transition-all break-all items-baseline gap-3 bg-violet-500 px-3 py-2 rounded-lg text-white shadow-lg justify-center"
             >
@@ -82,7 +83,7 @@ function Home() {
           <span className="flex items-center justify-center">
             <a target="_blank" rel="noreferrer"
               href="https://santechapitool.vercel.app/"
-              className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-semibold py-2 px-5 w-[90%] active:w-full lg:w-[50%] hover:lg:w-[80%] hover:lg:text-gray-800 text-center rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:lg:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce"
+              className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-semibold py-2 px-5 w-[90%] active:w-full lg:w-[50%] hover:lg:w-[80%] hover:lg:text-gray-800 text-center rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:lg:scale-110 hover:brightness-110"
             >
               Try API Tool <i className="fas fa-vial ps-2 text-base"></i>
             </a>
@@ -119,7 +120,7 @@ function Home() {
           ) : (
             <span className="">
               <h1 className="text-xl font-semibold text-gray-700">
-                Total Apis Count
+                Total Apis in Api Hub
               </h1>
               <p className="text-lg mt-3">{activekey}</p>
             </span>
@@ -152,7 +153,7 @@ function Home() {
             <span className="">
               <h1 className="text-xl font-semibold text-gray-700">
                 {" "}
-                Api Keys Count{" "}
+                Api Keys Created{" "}
               </h1>
               <p className="text-lg mt-3">{apikey}</p>
             </span>

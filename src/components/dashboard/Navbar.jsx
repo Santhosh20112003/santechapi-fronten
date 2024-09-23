@@ -36,9 +36,8 @@ function Navbar() {
               ></i>
 
               <ul
-                className={`md:flex md:items-center w-[250px]  md:pb-0 pb-8 absolute md:static md:z-auto left-0 top-0 h-screen z-[30] md:w-auto md:pl-0  md:bg-transparent bg-violet-500 transition-all duration-500 ease-in ${
-                  open ? "left-0 z-[-1] " : "left-[-250px] z-[-1]"
-                }`}
+                className={`md:flex md:items-center w-[250px]  md:pb-0 pb-8 absolute md:static md:z-auto left-0 top-0 h-screen z-[30] md:w-auto md:pl-0  md:bg-transparent bg-violet-500 transition-all duration-500 ease-in ${open ? "left-0 z-[-1] " : "left-[-250px] z-[-1]"
+                  }`}
               >
                 <span className="flex bg-violet-900 h-[10vh] items-center justify-start  ps-4 w-full gap-1">
                   <img
@@ -72,11 +71,10 @@ function Navbar() {
                     >
                       <Link
                         to={link.link}
-                        className={`text-white px-3 text-xl  py-2 rounded-md ${
-                          location.pathname.includes(link.link)
+                        className={`text-white px-3 text-xl  py-2 rounded-md ${location.pathname.includes(link.link)
                             ? "bg-violet-500 text-black font-medium"
                             : ""
-                        }`}
+                          }`}
                         onClick={closeSidebar}
                       >
                         <i className={`${link.icon} me-5`}></i>
@@ -92,7 +90,7 @@ function Navbar() {
             </span>
             <div className="flex-shrink-0 flex items-center mt-0.5">
               <span className="text-white hidden lg:block md:block lg:text-xl text-2xl font-bold ml-1">
-                API Dashboard
+                Your API Dashboard
               </span>
               <span className="flex lg:hidden ml-2 items-center gap-3 md:hidden">
                 <img

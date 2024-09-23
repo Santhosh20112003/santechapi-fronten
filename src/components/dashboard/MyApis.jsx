@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { secret } from "../common/links";
 import { useUserAuth } from "../context/UserAuthContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 import nokeyImage from "../assert/No data-pana.svg";
 import nosubsImage from "../assert/Subscriber-bro.svg";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { Link } from "react-router-dom";
 
 function Apis() {
   const { user } = useUserAuth();
@@ -232,9 +232,9 @@ function Apis() {
 
   return (
     <div className="h-[90vh] overflow-y-scroll">
-      <h1 className="text-2xl ms-5 mt-5 font-semibold text-gray-700">
-        <i className="fas fa-user"></i> My Space
-      </h1>
+      {/* <h1 className="text-2xl ms-5 mt-5 font-semibold text-gray-700">
+        My Space
+      </h1> */}
 
       {loading ? (
         <div className="rounded-md p-5 mx-5 mt-5 flex items-center justify-center bg-violet-200 border-2 border-violet-300">
@@ -261,7 +261,7 @@ function Apis() {
       ) : (
         <div className="rounded-md p-5 mx-5 mt-5 bg-violet-200 border-2 border-violet-300">
           <span className="flex items-center flex-wrap justify-between">
-            <h1 className="text-lg ms-3 text-violet-800">API KEYS</h1>
+            <h1 className="text-xl font-semibold ms-3 text-gray-800">Your API KEYS</h1>
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
@@ -319,20 +319,17 @@ function Apis() {
                   className={`flex w-full items-center rounded-md justify-end md:justify-between md:flex-nowrap flex-wrap gap-3 px-3 py-2 bg-gray-700`}
                 >
                   <p
-                    className={`text-sm w-fit break-all ${
-                      token.copied ? "text-white" : "text-white"
-                    }`}
+                    className={`text-sm w-fit break-all ${token.copied ? "text-white" : "text-white"
+                      }`}
                   >
                     {token.key}
                   </p>
                   <i
-                    className={`px-3 py-2 active:scale-90 transition-all border-2 fas ${
-                      token.copied ? "fa-check" : "fa-clipboard"
-                    } ${
-                      token.copied
+                    className={`px-3 py-2 active:scale-90 transition-all border-2 fas ${token.copied ? "fa-check" : "fa-clipboard"
+                      } ${token.copied
                         ? "bg-green-200 border-green-400"
                         : "bg-gray-200 border-gray-400"
-                    } text-gray-500 rounded-md`}
+                      } text-gray-500 rounded-md`}
                     onClick={() => copyToClipboard(token.key, index)}
                   ></i>
                   <AlertDialog.Root>
@@ -379,7 +376,7 @@ function Apis() {
         </div>
       )}
 
-      <ToastContainer />
+      <Toaster />
 
       <h1 className="text-2xl ms-5 mt-10 font-semibold text-gray-700">
         Subscribed APIs
@@ -410,33 +407,34 @@ function Apis() {
           </div>
         ) : subscribedApis.length > 0 ? (
           <div className="">
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-3">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-3 mx-1">
               {subscribedApis.map((api, index) => (
                 <div
                   key={index}
                   className="p-4 flex items-center justify-center md:block"
                 >
                   <div
-                    className={`lg:h-64 h-80 w-[1fr] max-w-[500px]  bg-gray-500 relative rounded-lg overflow-hidden shadow-lg`}
+                    className={`lg:h-64 w-full h-80 md:w-[1fr] max-w-[500px]  bg-gray-500 relative rounded-lg overflow-hidden shadow-lg`}
                   >
                     <span className="bg-emerald-500 z-10 text-white px-3 py-1 text-xs absolute right-0 top-0 rounded-bl">
                       Subscribed
                     </span>
                     <img
                       src={api.img}
-                      alt=""
+                      alt={api.name}
+                      loading="lazy"
                       className="w-full h-full object-fill relative brightness-50"
                     />
-                    <span className="absolute left-[10%] text-gray-50 bottom-[10%] pb-3">
+                    <span className="absolute left-[5%] text-gray-50 bottom-[8%]">
                       <h1 className="sm:text-2xl inline-flex items-center pe-3 gap-2 text-xl font-semibold mb-3">
                         {api.name} API{" "}
-                        <a
+                        <Link
                           target="_blank"
                           href={api.link}
                           className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
-                        ></a>{" "}
+                        ></Link>{" "}
                       </h1>
-                      <p className="leading-relaxed text-gray-200 mb-5">
+                      <p className="leading-relaxed text-gray-200 mb-5 me-3">
                         {api.short_desc}
                       </p>
 

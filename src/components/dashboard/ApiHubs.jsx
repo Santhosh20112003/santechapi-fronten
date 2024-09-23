@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { secret } from "../common/links";
 import nokey from "../assert/No data-cuate.svg";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 import { useUserAuth } from "../context/UserAuthContext";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function ApiHubs() {
   const { user } = useUserAuth();
@@ -108,7 +107,7 @@ function ApiHubs() {
           />
           <button
             type="submit"
-            className="text-white absolute end-2.5 bottom-2.5 bg-violet-700 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-violet-300 font-medium rounded-lg text-sm px-4 py-2"
+            className="text-white absolute end-2.5 bottom-2 bg-violet-700 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-violet-300 font-medium rounded-lg text-sm px-4 py-2"
           >
             Search
           </button>
@@ -163,15 +162,16 @@ function ApiHubs() {
                     alt=""
                     className="w-full h-full object-fill relative brightness-50"
                   />
-                  <span className="absolute left-[10%] text-gray-50 bottom-[10%] pb-3">
-                    <h1 className="text-xl font-semibold mb-3">
+                  <span className="absolute left-[5%] text-gray-50 bottom-[8%]">
+                    <h1 className="sm:text-2xl inline-flex items-center pe-3 gap-2 text-xl font-semibold mb-3">
                       {api.name} API{" "}
-                      <a
+                      <Link
+                        target="_blank"
                         href={api.link}
                         className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
-                      ></a>
+                      ></Link>{" "}
                     </h1>
-                    <p className="leading-relaxed break-words text-gray-200 mb-3">
+                    <p className="leading-relaxed break-words me-3 text-gray-200 mb-3">
                       {api.short_desc}
                     </p>
                     {api.subscribed ? (
@@ -218,7 +218,7 @@ function ApiHubs() {
           </div>
         </div>
       )}
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

@@ -52,7 +52,7 @@ function ApiHubs() {
       <Notificationbanner />
       <Header />
       <div className="">
-        <form className="p-5" onSubmit={handleSearch}>
+        <form className="px-5 pt-5 pb-3" onSubmit={handleSearch}>
           <div className="relative ">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
@@ -116,7 +116,7 @@ function ApiHubs() {
             <p className="text-lg">Content Not Found</p>
           </div>
         ) : (
-          <div className="mt-3">
+          <div className="">
             <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
               {filteredApis.map((api) => (
                 <div
@@ -132,11 +132,11 @@ function ApiHubs() {
                       alt=""
                       className="w-full h-full object-fill relative brightness-50"
                     />
-                    <span className="absolute left-[10%] text-gray-50 bottom-[10%] pb-3">
-                      <h1 className="text-xl font-semibold mb-3">
+                    <span className="absolute left-[5%] text-gray-50 bottom-[5%]">
+                      <h1 className="text-xl font-semibold mb-2">
                         {api.name} Api
                       </h1>
-                      <p className="leading-relaxed break-words text-gray-200 mb-3">
+                      <p className="leading-relaxed break-words text-gray-200 mb-3 me-3">
                         {api.short_desc}
                       </p>
                     </span>

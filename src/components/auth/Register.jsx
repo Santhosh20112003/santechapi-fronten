@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useUserAuth } from "../context/UserAuthContext";
-import { random_register_img } from "../common/links";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -155,9 +154,8 @@ function Register() {
                   Create New Account
                 </span>
                 <svg
-                  class={`  ${
-                    isloading ? "flex" : "hidden"
-                  } animate-spin h-5 w-5 text-white`}
+                  class={`  ${isloading ? "flex" : "hidden"
+                    } animate-spin h-5 w-5 text-white`}
                   fill="none"
                   viewBox="0 0 24 24"
                 >
@@ -225,9 +223,9 @@ function Register() {
       </div>
       <div className="hidden overflow-y-hidden lg:block w-1/2 h-full">
         <img
-          src={random_register_img}
+          src={"https://ik.imagekit.io/santech/APIHUB/premium_photo-1685082608490-6653d07fbca6.avif?updatedAt=1727121013230"}
           alt="banner"
-          className="brightness-75 w-100  h-full object-cover"
+          className="brightness-75 w-full  h-full object-cover"
         />
       </div>
     </div>

@@ -26,9 +26,9 @@ function Sidebar() {
         <span className="flex items-center justify-center w-full mb-5">
           <Link
             to="home"
-            className="text-lg shadow-lg text-center py-3 mx-5 font-semibold w-full  text-gray-700 rounded-md bg-violet-300"
+            className="text-lg shadow-lg text-center py-3 mx-5 font-bold w-full  text-gray-700 rounded-md bg-violet-300"
           >
-            <i className={`fas fa-house me-2`}></i>Overview
+            Overview
           </Link>
         </span>
 
@@ -36,11 +36,10 @@ function Sidebar() {
           {links.map((link) => (
             <Link
               to={link.link}
-              className={`text-lg text-center py-3 rounded-md transition text-white font-medium w-[80%] ${
-                location.pathname.includes(link.link)
+              className={`text-lg text-center py-3 rounded-md transition text-white font-medium w-[80%] ${location.pathname.includes(link.link)
                   ? "bg-gray-800 shadow-lg"
                   : ""
-              }`}
+                }`}
             >
               <i className={`${link.icon} me-3`}></i>
               {link.name}

@@ -9,11 +9,11 @@ function Hero() {
           <h1 class="title-font sm:text-6xl text-5xl mb-4 font-bold text-violet-900">
             Discover and connect
             <br class="" />
-            <span className="title-font sm:text-5xl text-3xl lg:ms-8 mb-4 font-bold text-gray-900">
+            <span className="title-font sm:text-5xl text-3xl lg:ms-8 mb-4 font-bold text-gray-800">
               to thousands of APIs
             </span>
           </h1>
-          <p class="mb-8 leading-relaxed text-lg">
+          <p class="mb-8 text-gray-600 leading-relaxed text-lg">
             Your gateway to a world of APIs, simplifying integration and fueling
             innovation. Join us today and unleash the power of connectivity!
           </p>
