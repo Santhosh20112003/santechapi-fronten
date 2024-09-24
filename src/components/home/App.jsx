@@ -10,7 +10,7 @@ import Notificationbanner from "./notificationbanner";
 import Pricing from "./pricing";
 import Steps from "./steps";
 import Testimonials from "./testimonials";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
 import "react-toastify/dist/ReactToastify.css";
 import HomeContact from "./homecontact";
 
@@ -47,7 +47,7 @@ function App() {
       <Pricing />
       <HomeContact />
       <Footer />
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

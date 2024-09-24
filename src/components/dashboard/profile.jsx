@@ -126,7 +126,7 @@ function Profile() {
                           {api.name} API{" "}
                           <Link
                             target="_blank"
-                            href={api.link}
+                            to={api.link}
                             className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
                           ></Link>{" "}
                         </h1>
