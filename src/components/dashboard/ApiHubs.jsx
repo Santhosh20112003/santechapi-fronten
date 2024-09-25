@@ -79,16 +79,16 @@ function ApiHubs() {
 
   return (
     <div className="w-full max-h-[90vh] overflow-y-scroll">
-      <form className="p-5" onSubmit={handleSearch}>
+      <form className="p-5 " onSubmit={handleSearch}>
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-          <SiGooglegemini className="text-gray-500" />
+            <SiGooglegemini className="text-violet-800" />
           </div>
           <input
             type="search"
             autoFocus
             id="default-search"
-            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-violet-500 focus:border-violet-500"
+            className="block w-full p-4 placeholder:text-violet-500 ps-10 text-sm text-gray-900 border border-violet-300 rounded-lg bg-violet-100 focus:ring-violet-500 focus:border-violet-500"
             placeholder="Find the API you need…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -159,13 +159,14 @@ function ApiHubs() {
                         className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
                       ></Link>{" "}
                     </h1>
-                    <p className="leading-relaxed break-words me-3 text-gray-200 mb-3">
+                    <p className="leading-relaxed break-words me-5 text-gray-200 mb-3">
                       {api.short_desc}
                     </p>
                     {api.subscribed ? (
-                      <button className="px-3 py-2 rounded-md bg-emerald-400 text-white">
-                        Subscribed
-                      </button>
+                      <div className=""></div>
+                      // <button className="px-3 py-2 rounded-md bg-emerald-400 text-white">
+                      //   Subscribed
+                      // </button>
                     ) : (
                       <button
                         onClick={() => {

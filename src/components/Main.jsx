@@ -14,6 +14,7 @@ import DashboardHome from "./dashboard/Home";
 import ApiList from "./home/apilist";
 import Contact from "./home/contactpage";
 import Pricing from "./home/pricingpage";
+import IdeaCenter from "./dashboard/IdeaCenter"
 
 function Main() {
   return (
@@ -42,6 +43,14 @@ function Main() {
               element={
                 <ProtectedRoute>
                   <DashboardApiHubs />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="ideacenter"
+              element={
+                <ProtectedRoute>
+                  <IdeaCenter />
                 </ProtectedRoute>
               }
             />

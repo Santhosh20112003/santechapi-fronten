@@ -10,6 +10,7 @@
     "@headlessui/react": "^1.7.17",
     "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@radix-ui/react-visually-hidden": "^1.0.3",
     "@testing-library/jest-dom": "^5.17.0",

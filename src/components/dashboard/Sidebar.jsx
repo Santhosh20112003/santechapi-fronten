@@ -32,11 +32,11 @@ function Sidebar() {
           </Link>
         </span>
 
-        <ul className="w-full flex flex-col items-center gap-3">
+        <ul className="w-full flex flex-col items-center  gap-3">
           {links.map((link) => (
             <Link
               to={link.link}
-              className={`text-lg text-center py-3 rounded-md transition text-white font-medium w-[80%] ${location.pathname.includes(link.link)
+              className={`text-lg text-center  py-3 rounded-full transition text-white font-medium w-[80%] ${location.pathname.includes(link.link)
                   ? "bg-gray-800 shadow-lg"
                   : ""
                 }`}
