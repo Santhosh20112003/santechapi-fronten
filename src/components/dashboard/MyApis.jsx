@@ -66,16 +66,7 @@ function Apis() {
     }));
     setApiKeys(updatedApiKeys);
 
-    toast.success("API Key is Copied", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success("API Key is Copied");
 
     setTimeout(() => {
       setApiKeys(apiKeys.map((key) => ({ ...key, copied: false })));
@@ -93,30 +84,11 @@ function Apis() {
       };
       const result = await axios.request(deleteapireq);
       if (result.status === 200) {
-        toast.error("API Key Deleted Successfully", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-
+        toast("API Key Deleted Successfully");
         setApiKeys(apiKeys.filter((_, i) => i !== index));
       }
     } catch (error) {
-      toast.error(`Error Occurred with ${error}`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`Error Occurred with ${error}`);
     } finally {
       setSubscribedApisLoading(false);
     }
@@ -139,16 +111,7 @@ function Apis() {
           ? "Your API Key has been successfully generated and sent to your email."
           : "API Key Created Successfully.";
 
-        toast.success(successMessage, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success(successMessage);
 
         setApiKeys([...apiKeys, { key: result.data.token, copied: false }]);
       }
@@ -172,16 +135,7 @@ function Apis() {
       const result = await axios.request(createapireq);
 
       if (result.status === 200) {
-        toast.info(`${api.name} Api unsubscribed Successfully`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.success(`${api.name} Api unsubscribed Successfully`);
         setSubscribedApis(subscribedApis.filter((_, i) => i !== index));
       }
     } catch (error) {
@@ -194,39 +148,12 @@ function Apis() {
   const handleApiError = (error) => {
     if (error.response) {
       if (error.response.status === 400) {
-        toast.error(`Error Occurred with ${error.response.data}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error(`Error Occurred with ${error.response.data}`);
       } else if (error.response.status === 403) {
-        toast.warning("API Key limit is reached!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast("API Key limit is reached!");
       }
     } else {
-      toast.error(`Error Occurred with ${error}`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(`Error Occurred with ${error}`);
     }
   };
 
@@ -448,11 +375,10 @@ function Apis() {
                           <AlertDialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
                           <AlertDialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%] z-50 rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
                             <AlertDialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
-                              Are you absolutely sure?
+                              Are you absolutely sure to unsubscribe
                             </AlertDialog.Title>
                             <AlertDialog.Description className="text-mauve11 mt-4 mb-5 text-[15px] leading-normal">
-                              This action cannot be undone. This will
-                              permanently delete your Api Key from our servers.
+                              Subscription to <b>{api.name} API</b> has been unsubscribed, your access to this api will be stopped.
                             </AlertDialog.Description>
                             <div className="flex justify-end gap-[25px]">
                               <AlertDialog.Cancel asChild>

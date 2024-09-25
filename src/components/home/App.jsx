@@ -11,22 +11,12 @@ import Pricing from "./pricing";
 import Steps from "./steps";
 import Testimonials from "./testimonials";
 import toast, { Toaster } from 'react-hot-toast';
-import "react-toastify/dist/ReactToastify.css";
 import HomeContact from "./homecontact";
 
 function App() {
   useEffect(() => {
     function handleOffline() {
-      toast.error("You're Offline", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("You're Offline");
     }
     window.addEventListener("offline", handleOffline);
     return () => {

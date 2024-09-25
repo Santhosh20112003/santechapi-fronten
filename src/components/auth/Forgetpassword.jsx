@@ -15,27 +15,9 @@ function Forgetpassword() {
     try {
       await forgetpassword(email);
       setisloading(false);
-      toast.info("Email has been Sent Successfully.", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast("Email has been Sent Successfully.");
     } catch (err) {
-      toast.error(err.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(err.message);
       setisloading(false);
     }
     setisloading(false);

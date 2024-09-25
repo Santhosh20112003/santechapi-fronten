@@ -5,6 +5,8 @@ import nokey from "../assert/No data-cuate.svg";
 import toast, { Toaster } from 'react-hot-toast';
 import { useUserAuth } from "../context/UserAuthContext";
 import { Link, useLocation } from "react-router-dom";
+import { genSearch } from "../common/methods";
+import { SiGooglegemini } from "react-icons/si";
 
 function ApiHubs() {
   const { user } = useUserAuth();
@@ -45,13 +47,13 @@ function ApiHubs() {
 
       if (response.status === 200) {
         setUpdatedApi(!updatedApi);
-        toast.info(`${apiItem.name} API is Subscribed`, { position: "top-center", autoClose: 5000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light" });
+        toast.success(`${apiItem.name} API is Subscribed`);
       }
     } catch (err) {
       if (err.response && err.response.status === 403) {
-        toast.info("Create Api Key in order to Subscribe to an API", { position: "top-center", autoClose: 5000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light" });
+        toast("Create Api Key in order to Subscribe to an API");
       } else {
-        toast.error(`Error occurred with ${err}`, { position: "top-center", autoClose: 5000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "colored" });
+        toast.error(`Error occurred with ${err}`);
       }
     } finally {
       const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: false } : api));
@@ -59,11 +61,11 @@ function ApiHubs() {
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    const filtered = apis.filter(api => api.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const data = await genSearch(searchTerm);
+    const filtered = apis.filter(api => api.name.toLowerCase().includes(data.toLowerCase()));
     setLoading(false);
 
     if (filtered.length > 0) {
@@ -80,28 +82,14 @@ function ApiHubs() {
       <form className="p-5" onSubmit={handleSearch}>
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg
-              className="w-4 h-4 text-gray-500"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
+          <SiGooglegemini className="text-gray-500" />
           </div>
           <input
             type="search"
             autoFocus
             id="default-search"
             className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-violet-500 focus:border-violet-500"
-            placeholder="Search APIs..."
+            placeholder="Find the API you need…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -149,7 +137,7 @@ function ApiHubs() {
                 className="p-4 flex items-center justify-center md:block"
                 key={api.name}
               >
-                <div className="lg:h-60 h-80 w-full max-w-[500px] bg-gray-500 relative rounded-lg overflow-hidden shadow-lg">
+                <div className="lg:h-64 h-80 w-full max-w-[500px] bg-gray-500 relative rounded-lg overflow-hidden shadow-lg">
                   {api.subscribed ? (
                     <span className="bg-emerald-500 z-10 text-white px-3 py-1 text-xs absolute right-0 top-0 rounded-bl">
                       Subscribed

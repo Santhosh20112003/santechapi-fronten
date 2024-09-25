@@ -22,25 +22,25 @@ const FreeCard = () => {
           </div>
           <span className="-mt-4 pb-4 flex px-3 text-center flex-col justify-center items-center">
             <h1 className="text-sm font-semibold  capitalize text-slate-600">
-              {user.displayName || username}
+              {user.displayName.slice(0,20)+'..' || username}
             </h1>
             {/* <p className="text-sm break-all text-slate-800">{user.email}</p> */}
           </span>
 
           <Link
             to={"profile"}
-            className="text-medium block shadow-lg active:scale-90 transition-all rounded-full mb-3 py-2 px-9 text-center text-base bg-indigo-900 text-white"
+            className="text-medium block shadow-lg  active:scale-90 transition-all rounded-full mb-5 py-2 px-9 text-center text-base bg-indigo-900 text-white"
           >
             View Profile
           </Link>
 
-          <button
+          {/* <button
             onClick={() => logOut()}
             className="text-medium shadow-lg active:scale-90 transition-all rounded-full mb-5 py-2 px-9 text-center inline-flex items-center gap-2 text-base bg-red-300 text-red-500"
           >
             <p className="font-semibold">Logout</p>
             <i className="fas mt-0.5 fa-arrow-right-from-bracket"></i>
-          </button>
+          </button> */}
         </div>
       ) : (
         <div className="bg-gradient-to-b h-40 from-indigo-200 to-indigo-400 w-full flex  items-center justify-center shadow-lg mt-8 rounded-3xl">

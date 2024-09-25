@@ -19,16 +19,7 @@ function Register() {
     setisloading(true);
     try {
       await signUp(email, password);
-      toast.success("Your Account has been Created Succesfully !", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.success("Your Account has been Created Succesfully !");
       navigate("/login");
     } catch (err) {
       setErr(err.message.replace("Firebase:", "").replace(".", ""));
@@ -53,7 +44,6 @@ function Register() {
     setisloading(true);
     try {
       await GithubSignIn();
-
       navigate("/dashboard");
     } catch (err) {
       setErr(err.message.replace("Firebase:", "").replace(".", ""));
