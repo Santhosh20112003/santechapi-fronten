@@ -104,3 +104,5 @@ export const apilist = [
 export const profilepic = () => {
   return "https://xsgames.co/randomusers/avatar.php?g=pixel";
 };
+
+export const API_KEY = "AIzaSyAjCbmzp8uBeYSL8MKJBr8a2oypJFTXcSQ";

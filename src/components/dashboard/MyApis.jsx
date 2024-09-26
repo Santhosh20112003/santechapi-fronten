@@ -334,7 +334,7 @@ function Apis() {
           </div>
         ) : subscribedApis.length > 0 ? (
           <div className="">
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-3 mx-1">
+            <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-3 mx-1">
               {subscribedApis.map((api, index) => (
                 <div
                   key={index}

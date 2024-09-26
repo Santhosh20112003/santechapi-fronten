@@ -7,6 +7,7 @@ import { useUserAuth } from "../context/UserAuthContext";
 import { Link, useLocation } from "react-router-dom";
 import { genSearch } from "../common/methods";
 import { SiGooglegemini } from "react-icons/si";
+import { MdOutlineAutoAwesome } from "react-icons/md";
 
 function ApiHubs() {
   const { user } = useUserAuth();
@@ -82,7 +83,7 @@ function ApiHubs() {
       <form className="p-5 " onSubmit={handleSearch}>
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <SiGooglegemini className="text-violet-800" />
+            <MdOutlineAutoAwesome className="text-violet-800" />
           </div>
           <input
             type="search"

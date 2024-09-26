@@ -16,6 +16,7 @@ const userAuthContext = createContext();
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
   const [apis, setapis] = useState([null]);
+  const [conversation, setConversation] = useState([]);
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -61,6 +62,8 @@ export function UserAuthContextProvider({ children }) {
         googleSignIn,
         forgetpassword,
         GithubSignIn,
+        conversation,
+        setConversation,
       }}
     >
       {children}

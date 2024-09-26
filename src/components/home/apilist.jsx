@@ -5,6 +5,7 @@ import Header from "./header";
 import Notificationbanner from "./notificationbanner";
 import { Link } from "react-router-dom";
 import Footer from "./footer";
+import { genSearch } from "../common/methods";
 
 function ApiHubs() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,14 +29,11 @@ function ApiHubs() {
       });
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = async(e) => {
     e.preventDefault();
     setLoading(true);
-
-    const filtered = apis.filter((api) =>
-      api.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
+    const data = await genSearch(searchTerm);
+    const filtered = apis.filter(api => api.name.toLowerCase().includes(data.toLowerCase()));
     setLoading(false);
 
     if (filtered.length > 0) {
@@ -116,7 +114,7 @@ function ApiHubs() {
             <p className="text-lg">Content Not Found</p>
           </div>
         ) : (
-          <div className="">
+          <div className="min-h-[70vh]">
             <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
               {filteredApis.map((api) => (
                 <div
@@ -125,6 +123,7 @@ function ApiHubs() {
                 >
                   <Link
                     to={api.link}
+                    target="_blank"
                     className="lg:h-60 h-72 w-full max-w-[500px] bg-gray-500 relative rounded-lg overflow-hidden shadow-lg"
                   >
                     <img
