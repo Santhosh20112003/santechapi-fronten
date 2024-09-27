@@ -157,6 +157,13 @@ function Apis() {
     }
   };
 
+  const { setTitle } = useUserAuth();
+
+  useEffect(() => {
+    setTitle("Your API Dashboard");
+    return () => setTitle("");
+  }, [setTitle]);
+
   return (
     <div className="h-[90vh] overflow-y-scroll">
       {/* <h1 className="text-2xl ms-5 mt-5 font-semibold text-gray-700">

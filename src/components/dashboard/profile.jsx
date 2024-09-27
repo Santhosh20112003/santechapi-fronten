@@ -39,6 +39,13 @@ function Profile() {
     fetchData();
   }, [user]);
 
+  const { setTitle } = useUserAuth();
+
+  useEffect(() => {
+    setTitle("Your Profile");
+    return () => setTitle("");
+  }, [setTitle]);
+
   return (
     <div className="w-full h-[90vh] flex">
       <span className="w-1/2 hidden lg:block relative bg-gray-700">

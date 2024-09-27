@@ -9,7 +9,7 @@ function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const { user, logOut } = useUserAuth();
+  const { user, logOut, title } = useUserAuth();
 
   const toggleNavbar = () => setOpen((prev) => !prev);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
@@ -92,7 +92,7 @@ function Navbar() {
             </Dialog.Root>
             <div className="flex-shrink-0 flex items-center mt-0.5">
               <span className="text-white hidden lg:block md:block lg:text-xl text-2xl font-bold ml-1">
-                Your API Dashboard
+                {title}
               </span>
               <span className="flex lg:hidden ml-2 items-center gap-3 md:hidden">
                 <img

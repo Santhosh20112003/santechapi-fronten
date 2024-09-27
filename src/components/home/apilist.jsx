@@ -122,7 +122,7 @@ function ApiHubs() {
                   key={api.name}
                 >
                   <Link
-                    to={api.link}
+                    to={`https://santech.gitbook.io/docs/${api.name.toLowerCase().replace(/\s/g, '-')}-api`}
                     target="_blank"
                     className="lg:h-60 h-72 w-full max-w-[500px] bg-gray-500 relative rounded-lg overflow-hidden shadow-lg"
                   >

@@ -105,6 +105,13 @@ function IdeaCenter() {
     handleChatSubmission(prompt);
   };
 
+  const { setTitle } = useUserAuth();
+
+  useEffect(() => {
+    setTitle("Idea Center");
+    return () => setTitle("");
+  }, [setTitle]);
+
   return (
     <div className="w-full h-[85vh]">
       <div className="bg-white p-4">

@@ -22,7 +22,9 @@ const FreeCard = () => {
           </div>
           <span className="-mt-4 pb-4 flex px-3 text-center flex-col justify-center items-center">
             <h1 className="text-base font-semibold capitalize text-gray-700">
-              {user?.displayName?.length > 20 ? user?.displayName?.slice(0,20)+'..' : user?.displayName || username?.length > 20 ? username?.slice(0,20)+'..' : username}
+              {(user?.displayName || username)?.length > 20
+                ? (user?.displayName || username)?.slice(0, 20) + '..'
+                : user?.displayName || username}
             </h1>
             {/* <p className="text-sm break-all text-slate-800">{user.email}</p> */}
           </span>

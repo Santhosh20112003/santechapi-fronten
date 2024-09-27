@@ -37,7 +37,7 @@ function Steps() {
                   STEP 1
                 </h2>
                 <p class="leading-relaxed">
-                  Get Started by Sign up your first Santech api Account.
+                  Create your free Santech ApiHub account to access a world of powerful APIs.
                 </p>
               </div>
             </div>
@@ -63,7 +63,7 @@ function Steps() {
                   STEP 2
                 </h2>
                 <p class="leading-relaxed">
-                  Choose the Desired pricing plan for your Api Account.
+                  Select the pricing plan that best suits your needs and <span className="line-through">budget</span>.
                 </p>
               </div>
             </div>
@@ -90,7 +90,23 @@ function Steps() {
                   STEP 3
                 </h2>
                 <p class="leading-relaxed">
-                  Generate the Api Keys and subscribe the Apis you like.
+                Generate API keys and subscribe to the APIs you need. Our API HUB spans from web development to machine learning.
+                </p>
+              </div>
+            </div>
+            <div class="flex relative pb-12">
+              <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+              </div>
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-violet-500 inline-flex items-center justify-center text-white relative z-10">
+                <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="28px" width="28px" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7"></path><path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3"></path><path d="M9.7 17l4.6 0"></path></svg>
+              </div>
+              <div class="flex-grow pl-4">
+                <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
+                  STEP 4
+                </h2>
+                <p class="leading-relaxed">
+                Get smart API suggestions from our AI-powered Idea Center. Let our assistant help you choose the right APIs to achieve your goals.
                 </p>
               </div>
             </div>
@@ -114,7 +130,7 @@ function Steps() {
                   FINISH
                 </h2>
                 <p class="leading-relaxed">
-                  Start Using the thousands of Api from our Santech Apihub.
+                  Access thousands of APIs and supercharge your development process with SantechApihub.
                 </p>
               </div>
             </div>

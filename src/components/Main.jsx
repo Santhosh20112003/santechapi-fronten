@@ -14,7 +14,8 @@ import DashboardHome from "./dashboard/Home";
 import ApiList from "./home/apilist";
 import Contact from "./home/contactpage";
 import Pricing from "./home/pricingpage";
-import IdeaCenter from "./dashboard/IdeaCenter"
+import IdeaCenter from "./dashboard/IdeaCenter";
+import PrivacyPolicy from "./home/PrivacyPolicy";
 
 function Main() {
   return (
@@ -26,6 +27,7 @@ function Main() {
           <Route path="home" element={<App />} />
           <Route path="apilist" element={<ApiList />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="pricing" element={<Pricing />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

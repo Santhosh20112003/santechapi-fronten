@@ -4,11 +4,29 @@ import { Link } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
 import { IoReturnDownForwardOutline } from "react-icons/io5";
 import { RiCornerDownRightFill } from "react-icons/ri";
+import { HiOutlineShare } from "react-icons/hi";
 import { FcDownRight } from "react-icons/fc";
+import toast from "react-hot-toast";
 
 function Hero() {
 
   const { user } = useUserAuth();
+
+  const HandleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "SantechApi | ApiHub",
+          text: "Discover a world of powerful APIs at SantechApihub. Explore a wide range of APIs for various industries and purposes, including web development, data analysis, machine learning, and more. With our user-friendly interface, finding and integrating APIs into your projects has never been easier. Stay updated with the latest API releases and subscribe to your favorite APIs to unlock their full potential. Join SantechApihub today and supercharge your development process.",
+          url: window.origin,
+        });      
+      } else {
+        toast.error("Sharing is not supported on this device.");
+      }
+    } catch (err) {
+      toast.error("Unable to share.");
+    }
+  };
 
   return (
     <section class="text-gray-600 bg-violet-100 min-h-[83vh] flex items-center justify-center body-font ">
@@ -18,7 +36,7 @@ function Hero() {
             Discover and connect
             <br class="" />
             <span className="title-font sm:text-5xl text-3xl lg:ms-2 inline-flex items-center mb-4 font-bold text-gray-800">
-            <FcDownRight className="me-2 righticon hidden md:block text-gray-800 fill-gray-800" /> to thousands of APIs
+              <FcDownRight className="me-2 righticon hidden md:block text-gray-800 fill-gray-800" /> to thousands of APIs
             </span>
           </h1>
           <p class="mb-8 text-gray-600 leading-relaxed text-lg">
@@ -37,9 +55,11 @@ function Hero() {
             >
               Get Started
             </Link>}
+            <button onClick={HandleShare} className="bg-gray-800 py-3 px-4 rounded-xl text-white" >
+              <HiOutlineShare /></button>
           </div>
         </div>
-        <div class="lg:max-w-2xl hidden lg:flex lg:max-h-xl lg:w-full  md:w-1/2">
+        <div class="lg:max-w-3xl hidden lg:flex lg:max-h-xl lg:w-full  md:w-1/2">
           <motion.img
             // animate={{ translateY: [0, -100] }}
             // transition={{
@@ -48,7 +68,7 @@ function Hero() {
             //   repeatType: "reverse",
             //   repeat: Infinity,
             // }}
-            class="object-cover transition-transform cursor-pointer duration-300 object-center rounded"
+            class="object-cover transition-transform cursor-pointer duration-300 object-left rounded"
             alt="Hero"
             src={"https://ik.imagekit.io/vituepzjm/APIHUB/santechapihubtemp.png?updatedAt=1727358707669"}
           />

@@ -78,6 +78,13 @@ function ApiHubs() {
     setFilteredApis(filtered);
   };
 
+  const { setTitle } = useUserAuth();
+
+  useEffect(() => {
+    setTitle("Api Hub");
+    return () => setTitle("");
+  }, [setTitle]);
+
   return (
     <div className="w-full max-h-[90vh] overflow-y-scroll">
       <form className="p-5 " onSubmit={handleSearch}>
