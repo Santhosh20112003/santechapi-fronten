@@ -13,7 +13,7 @@ export const main_links = [
   { name: "API tool", link: "https://santechapitool.vercel.app/" },
   {
     name: "Docs",
-    link: "https://santhoshs-organization-1.gitbook.io/santech-api-hub-docs/",
+    link: "https://santech.gitbook.io/docs",
   },
 ];
 
