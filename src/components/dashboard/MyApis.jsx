@@ -8,12 +8,20 @@ import nosubsImage from "../assert/Subscriber-bro.svg";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { Link } from "react-router-dom";
+import { CgSearch } from "react-icons/cg";
+import { genSearch } from "../common/methods";
+import { BiSolidFileDoc } from "react-icons/bi";
+import nokey from "../assert/No data-cuate.svg";
 
 function Apis() {
   const { user, apiKeys, setApiKeys } = useUserAuth();
   const [loading, setLoading] = useState(false);
   const [subscribedApis, setSubscribedApis] = useState([]);
+  const [filteredApis, setFilteredApis] = useState([]);
+  const [notFound, setNotFound] = useState(false);
   const [subscribedApisLoading, setSubscribedApisLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   var apikeysreq = {
     method: "POST",
     url: "https://santechapi-backend.vercel.app/getapiKeys",
@@ -45,6 +53,7 @@ function Apis() {
       }
 
       setSubscribedApis(subscribedApisResponse.data);
+      setFilteredApis(subscribedApisResponse.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -73,7 +82,7 @@ function Apis() {
   };
 
   const deleteApiKey = async (token, index) => {
-    setSubscribedApisLoading(true);
+    setLoading(true);
     try {
       var deleteapireq = {
         method: "POST",
@@ -89,7 +98,7 @@ function Apis() {
     } catch (error) {
       toast.error(`Error Occurred with ${error}`);
     } finally {
-      setSubscribedApisLoading(false);
+      setLoading(false);
     }
   };
 
@@ -156,6 +165,16 @@ function Apis() {
     }
   };
 
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    setSubscribedApisLoading(true);
+    const data = await genSearch(searchTerm);
+    const filtered = subscribedApis.filter(api => api.name.toLowerCase().includes(data.toLowerCase()));
+    setSubscribedApisLoading(false);
+    setNotFound(filtered.length === 0);
+    setFilteredApis(filtered);
+  };
+
   const { setTitle } = useUserAuth();
 
   useEffect(() => {
@@ -170,7 +189,7 @@ function Apis() {
       </h1> */}
 
       {loading ? (
-        <div className="rounded-md p-5 mx-5 mt-5 flex items-center justify-center bg-violet-200 border-2 border-violet-300">
+        <div className="rounded-md h-[20vh] p-5 mx-5 mt-5 flex items-center justify-center bg-violet-200 border-2 border-violet-300">
           <svg
             className={`animate-spin h-8 w-8 text-violet-500`}
             fill="none"
@@ -210,7 +229,7 @@ function Apis() {
                         </AlertDialog.Title>
                         <AlertDialog.Description className="text-mauve11 mt-4 mb-5 text-[15px] leading-normal">
                           This will create your Api Key in our servers on behalf
-                          of {user.email}.
+                          of <b>{user.email}</b>.
                         </AlertDialog.Description>
                         <div className="flex justify-end gap-[25px]">
                           <AlertDialog.Action asChild>
@@ -311,13 +330,25 @@ function Apis() {
 
       <Toaster />
 
-      <h1 className="text-2xl ms-5 mt-10 font-semibold text-gray-700">
-        Subscribed APIs
-      </h1>
+      <div className="w-full flex mt-10 items-center justify-between">
+        <h1 className="text-2xl ms-5 md:block hidden font-semibold text-gray-700">
+          Subscribed APIs
+        </h1>
+        <form onSubmit={handleSearch} class="flex items-center mx-5 md:me-5 w-full md:w-fit">
+          <label for="simple-search" class="sr-only">Search</label>
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <CgSearch />
+            </div>
+            <input value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} disabled={subscribedApisLoading} type="search" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-violet-500 focus:border-violet-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-violet-500 dark:focus:border-violet-500" placeholder="Search For APIs .." />
+          </div>
+        </form>
+      </div>
 
       <span id="subscribed" className="">
         {subscribedApisLoading ? (
-          <div className="mx-10 flex items-center justify-center mt-5 h-40 bg-cover pb-4">
+          <div className="mx-10 flex items-center justify-center mt-5 h-[40vh] bg-cover pb-4">
             <svg
               className={`animate-spin h-8 w-8 text-violet-500`}
               fill="none"
@@ -338,10 +369,15 @@ function Apis() {
               ></path>
             </svg>
           </div>
+        ) : notFound ? (
+          <div className="w-full h-[40vh] flex items-center flex-col justify-center">
+            <img src={nokey} alt="no content" className="w-64" />
+            <p className="text-lg">Content Not Found</p>
+          </div>
         ) : subscribedApis.length > 0 ? (
           <div className="">
             <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-3 mx-1">
-              {subscribedApis.map((api, index) => (
+              {filteredApis.map((api, index) => (
                 <div
                   key={index}
                   className="p-4 flex items-center justify-center md:block"
@@ -352,20 +388,29 @@ function Apis() {
                     <span className="bg-emerald-500 z-10 text-white px-3 py-1 text-xs absolute right-0 top-0 rounded-bl">
                       Subscribed
                     </span>
+                    <Link target="_blank" to={`https://santech.gitbook.io/docs/${api.name.toLowerCase().replace(/\s/g, '-')}-api`} className="bg-white z-10 text-gray-800 p-1 text-xs absolute left-2 top-2 rounded-tl-lg rounded-sm rounded-br-lg">
+                      <BiSolidFileDoc className="text-lg" />
+                    </Link>
                     <img
                       src={api.img}
                       alt={api.name}
-                      loading="lazy"
                       className="w-full h-full object-fill relative brightness-50"
                     />
                     <span className="absolute left-[5%] text-gray-50 bottom-[8%]">
                       <h1 className="sm:text-2xl inline-flex items-center pe-3 gap-2 text-xl font-semibold mb-3">
                         {api.name} API{" "}
+                        {/* <Link
+                        target="_blank"
+                        to={api.link}
+                        className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
+                      ></Link>{" "} */}
                         <Link
                           target="_blank"
-                          to={api.link}
-                          className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
-                        ></Link>{" "}
+                          to={`https://santechapitool.vercel.app/${btoa(api.link)}/${btoa(apiKeys[0]?.key)}`}
+                          className="pt-0.5 pb-1 rounded-full px-[0.7rem] bg-white text-gray-700 text-xs items-center "
+                        >
+                          try
+                        </Link>
                       </h1>
                       <p className="leading-relaxed text-gray-200 mb-5 me-3">
                         {api.short_desc}

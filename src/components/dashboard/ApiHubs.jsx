@@ -114,7 +114,7 @@ function ApiHubs() {
           </div>
           <input
             type="search"
-            autoFocus
+            disabled={loading}
             id="default-search"
             className="block w-full p-4 placeholder:text-violet-500 ps-10 text-sm text-gray-900 border border-violet-300 rounded-lg bg-violet-100 focus:ring-violet-500 focus:border-violet-500"
             placeholder="Find the API you need…"

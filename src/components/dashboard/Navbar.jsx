@@ -76,7 +76,6 @@ function Navbar() {
                             ? "bg-violet-900 text-black font-medium"
                             : ""
                             }`}
-                          onClick={closeSidebar}
                         >
                           <i className={`${link.icon} me-5`}></i>
                           {link.name}
