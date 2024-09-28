@@ -10,8 +10,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import { Link } from "react-router-dom";
 
 function Apis() {
-  const { user } = useUserAuth();
-  const [apiKeys, setApiKeys] = useState([]);
+  const { user, apiKeys, setApiKeys } = useUserAuth();
   const [loading, setLoading] = useState(false);
   const [subscribedApis, setSubscribedApis] = useState([]);
   const [subscribedApisLoading, setSubscribedApisLoading] = useState(false);

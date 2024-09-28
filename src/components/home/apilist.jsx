@@ -128,7 +128,7 @@ function ApiHubs() {
                   >
                     <img
                       src={api.img}
-                      alt=""
+                      alt={api.name}
                       className="w-full h-full object-fill relative brightness-50"
                     />
                     <span className="absolute left-[5%] text-gray-50 bottom-[5%]">

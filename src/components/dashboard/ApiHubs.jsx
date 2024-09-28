@@ -8,9 +8,10 @@ import { Link, useLocation } from "react-router-dom";
 import { genSearch } from "../common/methods";
 import { SiGooglegemini } from "react-icons/si";
 import { MdOutlineAutoAwesome } from "react-icons/md";
+import { BiSolidFileDoc } from "react-icons/bi";
 
 function ApiHubs() {
-  const { user } = useUserAuth();
+  const { user, apiKeys } = useUserAuth();
   const searchParams = new URLSearchParams(useLocation().search);
   const QuerySearchParam = searchParams.get("name") || "";
   const [searchTerm, setSearchTerm] = useState(QuerySearchParam);
@@ -153,6 +154,9 @@ function ApiHubs() {
                   ) : (
                     ""
                   )}
+                  <Link target="_blank" to={`https://santech.gitbook.io/docs/${api.name.toLowerCase().replace(/\s/g, '-')}-api`} className="bg-white z-10 text-gray-800 p-1 text-xs absolute left-2 top-2 rounded-tl-lg rounded-sm rounded-br-lg">
+                    <BiSolidFileDoc className="text-lg" />
+                  </Link>
                   <img
                     src={api.img}
                     alt=""
@@ -161,11 +165,18 @@ function ApiHubs() {
                   <span className="absolute left-[5%] text-gray-50 bottom-[8%]">
                     <h1 className="sm:text-2xl inline-flex items-center pe-3 gap-2 text-xl font-semibold mb-3">
                       {api.name} API{" "}
-                      <Link
+                      {/* <Link
                         target="_blank"
                         to={api.link}
                         className="inline-flex text-sm items-center mt-1.5 fas fa-arrow-up-right-from-square"
-                      ></Link>{" "}
+                      ></Link>{" "} */}
+                      <Link
+                        target="_blank"
+                        to={`https://santechapitool.vercel.app/${btoa(api.link)}/${btoa(apiKeys[0]?.key)}`}
+                        className="pt-0.5 pb-1 rounded-full px-[0.7rem] bg-white text-gray-700 text-xs items-center "
+                      >
+                        try
+                      </Link>
                     </h1>
                     <p className="leading-relaxed break-words me-5 text-gray-200 mb-3">
                       {api.short_desc}

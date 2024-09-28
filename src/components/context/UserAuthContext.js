@@ -18,6 +18,7 @@ export function UserAuthContextProvider({ children }) {
   const [apis, setapis] = useState([null]);
   const [conversation, setConversation] = useState([]);
   const [title, setTitle] = useState("");
+  const [apiKeys, setApiKeys] = useState([]);
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -67,6 +68,8 @@ export function UserAuthContextProvider({ children }) {
         setConversation,
         setTitle,
         title,
+        setApiKeys,
+        apiKeys
       }}
     >
       {children}
