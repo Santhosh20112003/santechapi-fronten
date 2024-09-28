@@ -11,7 +11,7 @@ import { MdOutlineAutoAwesome } from "react-icons/md";
 import { BiSolidFileDoc } from "react-icons/bi";
 
 function ApiHubs() {
-  const { user, apiKeys } = useUserAuth();
+  const { user, apiKeys, setApiKeys } = useUserAuth();
   const searchParams = new URLSearchParams(useLocation().search);
   const QuerySearchParam = searchParams.get("name") || "";
   const [searchTerm, setSearchTerm] = useState(QuerySearchParam);
@@ -22,23 +22,42 @@ function ApiHubs() {
   const [updatedApi, setUpdatedApi] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchApis = async () => {
       setLoading(true);
       try {
-        const response = await axios.post("https://santechapi-backend.vercel.app/getallapis", { email: user.email }, { headers: { "Content-Type": "application/json", secret: secret } });
-        const updatedApis = response.data.map(api => ({ ...api, loading: false }));
+        const { data } = await axios.post(
+          "https://santechapi-backend.vercel.app/getallapis",
+          { email: user.email },
+          { headers: { "Content-Type": "application/json", secret } }
+        );
+        const updatedApis = data.map(api => ({ ...api, loading: false }));
         setApis(updatedApis);
         setFilteredApis(updatedApis);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching APIs:", error);
         setApis([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, [user, updatedApi]);
+    const fetchApiKeys = async () => {
+      try {
+        const { data } = await axios.post(
+          "https://santechapi-backend.vercel.app/getapiKeys",
+          { email: user.email },
+          { headers: { "Content-Type": "application/json", secret } }
+        );
+        const updatedKeys = data.map(token => ({ key: token, copied: false }));
+        setApiKeys(updatedKeys);
+      } catch (error) {
+        console.error("Error fetching API keys:", error);
+      }
+    };
+
+    fetchApis();
+    fetchApiKeys();
+  }, [user, updatedApi, setApiKeys]);
 
   const subscribe = async (apiItem) => {
     try {
