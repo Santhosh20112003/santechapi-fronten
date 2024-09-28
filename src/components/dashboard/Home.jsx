@@ -69,7 +69,7 @@ function Home() {
           <span className="grid py-10 w-full lg:grid-cols-3 sm:grid-cols-2 grid-cols-1  gap-5 flex-wrap">
             <Link
               target="_blank"
-              to="https://santhoshs-organization-1.gitbook.io/santech-api-hub-docs/"
+              to="https://santech.gitbook.io/docs"
               className="inline-flex active:scale-90 transition-all break-all items-baseline gap-3 bg-violet-500 px-3 py-2 rounded-lg text-white shadow-lg justify-center"
             >
               Documentation{" "}

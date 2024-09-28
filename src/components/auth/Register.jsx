@@ -79,7 +79,7 @@ function Register() {
           </h2>
         </div>
         {err && <p className="mt-5 text-center text-red-500">{err}</p>}
-        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
           <form
             encType="multipart/form-data"
             onSubmit={HandleSubmit}
@@ -199,7 +199,17 @@ function Register() {
               <span className="ps-5 md:ps-0">Sign Up with GitHub</span>
             </button>
           </div>
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-gray-500">
+            By registering for the SanTech API Hub, you agree to our
+            <Link
+              to="/privacy-policy"
+              className="font-semibold leading-6 text-violet-600 hover:text-violet-500"
+            >
+              {" "}
+              privacy-policy
+            </Link>
+          </p>
+          <p className="mt-3 text-center text-sm text-gray-500">
             Already have an account?
             <a
               href="/login"
