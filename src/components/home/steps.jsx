@@ -37,7 +37,7 @@ function Steps() {
                   STEP 1
                 </h2>
                 <p class="leading-relaxed">
-                  Create your free Santech ApiHub account to access a world of powerful APIs.
+                  Register your free Santech ApiHub account to access a world of powerful APIs.
                 </p>
               </div>
             </div>
@@ -90,7 +90,7 @@ function Steps() {
                   STEP 3
                 </h2>
                 <p class="leading-relaxed">
-                Generate API keys and subscribe to the APIs you need. Our API HUB spans from web development to machine learning.
+                  Generate API keys and subscribe to the APIs you need. Our API HUB spans from web development to machine learning.
                 </p>
               </div>
             </div>
@@ -106,7 +106,7 @@ function Steps() {
                   STEP 4
                 </h2>
                 <p class="leading-relaxed">
-                Get smart API suggestions from our AI-powered Idea Center. Let our assistant help you choose the right APIs to achieve your goals.
+                  Get smart API suggestions from our AI-powered Idea Center. Let our assistant help you choose the right APIs to achieve your goals.
                 </p>
               </div>
             </div>

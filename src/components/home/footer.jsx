@@ -84,7 +84,7 @@ function Footer() {
       <div className="bg-violet-100">
         <div className="px-5 py-6 mx-auto flex flex-col items-center sm:flex-row">
           <span onClick={() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+              
           }} className="flex title-font cursor-pointer font-medium items-center justify-center text-gray-600">
             <img src={require("../assert/santechapi.png")} alt="" className="w-fit h-12" />
           </span>

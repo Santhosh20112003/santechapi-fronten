@@ -12,6 +12,9 @@ import Steps from "./steps";
 import Testimonials from "./testimonials";
 import toast, { Toaster } from 'react-hot-toast';
 import HomeContact from "./homecontact";
+import CTA1 from "./CTA1";
+import CTA2 from "./CTA2";
+import LanguageImplementation from "./LanguageImplementation";
 
 function App() {
   useEffect(() => {
@@ -31,7 +34,10 @@ function App() {
       <Hero />
       <CodeSnippet />
       <Code />
+      <CTA1 />
+      <CTA2 />
       <List />
+      <LanguageImplementation />
       <Steps />
       <Testimonials />
       <Pricing />

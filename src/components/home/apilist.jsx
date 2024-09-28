@@ -6,6 +6,7 @@ import Notificationbanner from "./notificationbanner";
 import { Link } from "react-router-dom";
 import Footer from "./footer";
 import { genSearch } from "../common/methods";
+import { BiSolidFileDoc } from "react-icons/bi";
 
 function ApiHubs() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,7 +30,7 @@ function ApiHubs() {
       });
   }, []);
 
-  const handleSearch = async(e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
     const data = await genSearch(searchTerm);

@@ -64,7 +64,7 @@ function Testimonials() {
                 />
                 <span class="flex-grow flex flex-col pl-4">
                   <span class="title-font font-medium text-gray-900">
-                    Nishanthi S
+                    Nishanthi K
                   </span>
                   <span class="text-gray-500 text-sm">DESIGNER</span>
                 </span>
