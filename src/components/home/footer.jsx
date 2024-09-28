@@ -14,13 +14,13 @@ function Footer() {
             </h2>
             <nav className="list-none mb-5">
               <li>
-                <Link to="/home" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Home</Link>
+                <Link to="/home" className="text-gray-600/80 hover:text-gray-600">Home</Link>
               </li>
               <li>
-                {user ? <Link to="/dashboard" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Your Space</Link> : <Link to="/login" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Login</Link>}
+                {user ? <Link to="/dashboard" className="text-gray-600/80 hover:text-gray-600">Your Space</Link> : <Link to="/login" className="text-gray-600/80 hover:text-gray-600">Login</Link>}
               </li>
               <li>
-                {user ? <Link to="/dashboard" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Your Space</Link> : <Link to="/register" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Sign up</Link>}
+                {user ? <Link to="/dashboard" className="text-gray-600/80 hover:text-gray-600">Your Space</Link> : <Link to="/register" className="text-gray-600/80 hover:text-gray-600">Sign up</Link>}
               </li>
             </nav>
           </div>
@@ -30,13 +30,13 @@ function Footer() {
             </h2>
             <nav className="list-none mb-5 ">
               <li>
-                <Link to="/apilist" className="text-gray-bg-gray-600/80 lg:hover:text-gray-bg-gray-600">Api List</Link>
+                <Link to="/apilist" className="text-gray-600/80 hover:text-gray-600">Api List</Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Contact & Pricing</Link>
+                <Link to="/contact" className="text-gray-600/80 hover:text-gray-600">Contact & Pricing</Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Privacy policy</Link>
+                <Link to="/privacy-policy" className="text-gray-600/80 hover:text-gray-600">Privacy policy</Link>
               </li>
             </nav>
           </div>
@@ -46,10 +46,10 @@ function Footer() {
             </h2>
             <nav className="list-none mb-5 ">
               <li>
-                <Link to="https://santechapitool.vercel.app/" className="text-gray-bg-gray-600/80 lg:hover:text-gray-bg-gray-600">API tool</Link>
+                <Link to="https://santechapitool.vercel.app/" className="text-gray-600/80 hover:text-gray-600">API tool</Link>
               </li>
               <li>
-                <Link to="https://santech.gitbook.io/docs" className="text-gray-bg-gray-600/80 hover:text-gray-bg-gray-600">Docs</Link>
+                <Link to="https://santech.gitbook.io/docs" className="text-gray-600/80 hover:text-gray-600">Docs</Link>
               </li>
             </nav>
           </div>
@@ -75,7 +75,7 @@ function Footer() {
                 Send&nbsp;Message
               </button>
             </form>
-            <p className="text-gray-bg-gray-600/80  text-sm mt-2  font-medium ">
+            <p className="text-gray-500 text-sm mt-2 font-medium ">
               * All details are required for communication.
             </p>
           </div>
@@ -85,10 +85,10 @@ function Footer() {
         <div className="px-5 py-6 mx-auto flex flex-col items-center sm:flex-row">
           <span onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-          }} className="flex title-font cursor-pointer font-medium items-center justify-center text-gray-bg-gray-600">
+          }} className="flex title-font cursor-pointer font-medium items-center justify-center text-gray-600">
             <img src={require("../assert/santechapi.png")} alt="" className="w-fit h-12" />
           </span>
-          <p className="text-sm text-gray-bg-gray-600/80 mt-4 sm:ml-6 sm:mt-0 font-medium ">
+          <p className="text-sm text-gray-600/80 mt-4 sm:ml-6 sm:mt-0 font-medium ">
             © 2024 Santech API Hub —
             <Link
               to='https://santechh.vercel.app'

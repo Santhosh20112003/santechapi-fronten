@@ -24,10 +24,10 @@ function HomeContact() {
                   Website
                 </h2>
                 <a
-                  href="https://santhosh-technologies.netlify.app"
+                  href="https://www.santechh.online/home"
                   class="mt-1 text-violet-500"
                 >
-                  Santhosh Technologies
+                  SanTech
                 </a>
               </div>
               <div class="lg:w-fit px-6 ">
