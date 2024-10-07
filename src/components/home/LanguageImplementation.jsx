@@ -1,58 +1,94 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { backendlang, fontendlang } from '../common/links';
 
 function LanguageImplementation() {
+    const [end, setEnd] = useState("frontend");
+    const [lang, setLang] = useState(fontendlang[0]);
+    const [currentImage, setCurrentImage] = useState(lang.img);
+    useEffect(() => {
+        setCurrentImage(lang.img);
+    }, [lang]);
+
     return (
-        <section class="text-gray-600 body-font">
-            <div class="container px-16 py-24 mx-auto">
-                <div class="flex flex-col text-center w-full mb-20">
-                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Master Cleanse Reliac Heirloom</h1>
-                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag.</p>
-                </div>
-                <div class="flex flex-wrap -m-4 text-center">
-                    <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-                        <div class="bg-white border-2 border-gray-200 px-4 py-6 rounded-lg">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="text-indigo-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24">
-                                <path d="M8 17l4 4 4-4m-4-5v9"></path>
-                                <path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"></path>
-                            </svg>
-                            <h2 class="title-font font-medium text-3xl text-gray-900">2.7K</h2>
-                            <p class="leading-relaxed">Downloads</p>
-                        </div>
+        <section className="bg-gradient-to-bl from-violet-100 to-violet-200 text-gray-700 body-font">
+            <div className="w-full mx-auto px-5 md:px-12 py-20">
+                <div className="flex flex-col md:flex-row md:gap-8 items-center md:items-start">
+                    <div className="flex flex-col w-full md:w-1/2 mb-10 md:px-5 md:mb-0">
+                        {lang && (
+                            <div className="p-6 border shadow-lg bg-gradient-to-tr from-violet-950 to-violet-800 text-white border-violet-300 rounded-lg transition duration-300 hover:shadow-2xl">
+                                <div className="flex gap-3 items-center mb-4 border-b-2 pb-4 border-white">
+                                    <img src={currentImage} alt={lang.lang} className="h-5" />
+                                    <h1 className="text-2xl font-bold">{lang.lang}</h1>
+                                </div>
+                                <div className="text-sm p-2 rounded-md overflow-auto max-h-64">
+                                    <div className="break-words" dangerouslySetInnerHTML={{ __html: lang.code }}></div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-                        <div class="bg-white border-2 border-gray-200 px-4 py-6 rounded-lg">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="text-indigo-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24">
-                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"></path>
-                            </svg>
-                            <h2 class="title-font font-medium text-3xl text-gray-900">1.3K</h2>
-                            <p class="leading-relaxed">Users</p>
+                    <div className="flex flex-col md:w-1/2 pt-3">
+                        <h1 className="text-2xl md:text-3xl text-gray-900 mb-4 font-semibold">API Code Samples</h1>
+                        <p className="text-base md:text-lg text-gray-600 mb-6">
+                            Easily switch between front-end and back-end code samples and view code snippets for various technologies.
+                        </p>
+                        <div className="relative mb-6">
+                            <select
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-violet-500 focus:border-violet-500 transition ease-in-out duration-300"
+                                value={end}
+                                onChange={(e) => {
+                                    if (e.target.value === "frontend") {
+                                        setLang(fontendlang[0]);
+                                        setEnd(e.target.value);
+                                    } else {
+                                        setLang(backendlang[0]);
+                                        setEnd(e.target.value);
+                                    }
+                                }}
+                            >
+                                <option value="frontend">Front End</option>
+                                <option value="backend">Back End</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-                        <div class="bg-white border-2 border-gray-200 px-4 py-6 rounded-lg">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="text-indigo-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24">
-                                <path d="M3 18v-6a9 9 0 0118 0v6"></path>
-                                <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"></path>
-                            </svg>
-                            <h2 class="title-font font-medium text-3xl text-gray-900">74</h2>
-                            <p class="leading-relaxed">Files</p>
-                        </div>
-                    </div>
-                    <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-                        <div class="bg-white border-2 border-gray-200 px-4 py-6 rounded-lg">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="text-indigo-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            </svg>
-                            <h2 class="title-font font-medium text-3xl text-gray-900">46</h2>
-                            <p class="leading-relaxed">Places</p>
-                        </div>
+
+
+                        {end === "frontend" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {fontendlang.map((item) => (
+                                    <button
+                                        key={item.lang}
+                                        className={`px-5 py-3 font-semibold border rounded-lg transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 ${lang.lang === item.lang
+                                                ? 'bg-violet-600 text-white border-violet-500'
+                                                : 'bg-white text-violet-600 hover:bg-violet-100'
+                                            }`}
+                                        onClick={() => setLang(item)}
+                                    >
+                                        {item.lang}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
+                        {end === "backend" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {backendlang.map((item) => (
+                                    <button
+                                        key={item.lang}
+                                        className={`px-5 py-3 font-semibold border rounded-lg transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 ${lang.lang === item.lang
+                                                ? 'bg-violet-600 text-white'
+                                                : 'bg-white text-violet-600 hover:bg-violet-100'
+                                            }`}
+                                        onClick={() => setLang(item)}
+                                    >
+                                        {item.lang}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
         </section>
-    )
+    );
 }
 
-export default LanguageImplementation
+export default LanguageImplementation;

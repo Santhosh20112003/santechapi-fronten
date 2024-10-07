@@ -7,7 +7,7 @@ function CTA2() {
       <div class="container mx-auto flex lg:px-24  py-24 md:flex-row flex-col items-center">
         <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
           <h1 className="px-8 py-3 bg-gray-100 text-sm rounded-full mb-5 font-bold text-gray-600">REAL TIME MULTI-PLATFORM ACCESS</h1>
-          <h1 class="title-font sm:text-5xl text-3xl capitalize mb-4 font-bold text-gray-900">
+          <h1 class="title-font sm:text-5xl text-3xl break-all capitalize mb-4 font-bold text-gray-900">
             Access data from Various
             <br class="hidden lg:inline-block" />Devices in Real time
           </h1>

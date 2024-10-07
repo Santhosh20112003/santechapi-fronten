@@ -13,7 +13,7 @@ function CTA1() {
         </div>
         <div class="lg:flex-grow md:w-1/2 lg:pl-32 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
           <h1 className="px-8 py-3 bg-gray-100 uppercase text-sm rounded-full mb-5 font-bold text-gray-600">Storage Capacity</h1>
-          <h1 class="title-font sm:text-5xl text-3xl mb-4 font-bold text-gray-900">Adjust Storage Capacity
+          <h1 class="title-font break-all sm:text-5xl text-3xl mb-4 font-bold text-gray-900">Adjust Storage Capacity
             <br class="hidden lg:inline-block" />According to Needs Easily
           </h1>
           <p class="mb-8 leading-relaxed w-[80%]">Scalability in the context of cloud storage refers to the system's capability to adapt and accomodate changing storage requirements with ease and efficiency</p>
