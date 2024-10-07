@@ -103,7 +103,7 @@ export const apilist = [
 
 export const fontendlang = [
   {
-    lang: "Vanilla JS (Fetch API)",
+    lang: "Vanilla JavaScript",
     img: "https://res.cloudinary.com/hilnmyskv/image/upload/v1724919194/ui-library/icons/javascript.svg",
     code: `async function fetchWeather(location) {<br/>
       const apiKey = '{YOUR API KEY}'; // Replace with your actual API key<br/>

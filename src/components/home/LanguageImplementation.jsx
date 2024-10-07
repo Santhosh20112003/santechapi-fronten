@@ -16,9 +16,14 @@ function LanguageImplementation() {
                     <div className="flex flex-col w-full md:w-1/2 mb-10 md:px-5 md:mb-0">
                         {lang && (
                             <div className="p-6 border shadow-lg bg-gradient-to-tr from-violet-950 to-violet-800 text-white border-violet-300 rounded-lg transition duration-300 hover:shadow-2xl">
-                                <div className="flex gap-3 items-center mb-4 border-b-2 pb-4 border-white">
-                                    <img src={currentImage} alt={lang.lang} className="h-5" />
-                                    <h1 className="text-2xl font-bold">{lang.lang}</h1>
+                                <div className="flex items-center justify-between mb-4 border-b-2 pb-4 border-white">
+                                    <div className="flex gap-3 items-center ">
+                                        <img src={currentImage} alt={lang.lang} className="h-5" />
+                                        <h1 className="text-xl md:text-2xl font-bold">{lang.lang}</h1>
+                                    </div>
+                                    <span className="hidden sm:flex px-3 py-2 bg-violet-100 text-violet-700 rounded-lg">
+                                        Weather API
+                                    </span>
                                 </div>
                                 <div className="text-sm p-2 rounded-md overflow-auto max-h-64">
                                     <div className="break-words" dangerouslySetInnerHTML={{ __html: lang.code }}></div>
@@ -56,9 +61,9 @@ function LanguageImplementation() {
                                 {fontendlang.map((item) => (
                                     <button
                                         key={item.lang}
-                                        className={`px-5 py-3 font-semibold border rounded-lg transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 ${lang.lang === item.lang
-                                                ? 'bg-violet-600 text-white border-violet-500'
-                                                : 'bg-white text-violet-600 hover:bg-violet-100'
+                                        className={`px-5 py-3 break-words font-semibold border rounded-lg transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 ${lang.lang === item.lang
+                                            ? 'bg-violet-600 text-white border-violet-500'
+                                            : 'bg-white text-violet-600 hover:bg-violet-100'
                                             }`}
                                         onClick={() => setLang(item)}
                                     >
@@ -74,8 +79,8 @@ function LanguageImplementation() {
                                     <button
                                         key={item.lang}
                                         className={`px-5 py-3 font-semibold border rounded-lg transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 ${lang.lang === item.lang
-                                                ? 'bg-violet-600 text-white'
-                                                : 'bg-white text-violet-600 hover:bg-violet-100'
+                                            ? 'bg-violet-600 text-white'
+                                            : 'bg-white text-violet-600 hover:bg-violet-100'
                                             }`}
                                         onClick={() => setLang(item)}
                                     >
