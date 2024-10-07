@@ -2,7 +2,7 @@ export const baseUrl = "https://santechapi-backend.vercel.app";
 export const links = [
   { name: "My Space", link: "apis", icon: "fas fa-grip text-xl" },
   { name: "Api Hub", link: "hubs", icon: "fas fa-igloo" },
-  { name: "Idea Center", link: "ideacenter", icon: "fas fa-lightbulb" },
+  { name: "Idea Labs", link: "ideacenter", icon: "fas fa-lightbulb" },
   { name: "Profile", link: "profile", icon: "fas fa-address-card" },
 ];
 export const secret = "sannisaprthisrilila";
