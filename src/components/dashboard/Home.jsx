@@ -93,7 +93,7 @@ function Home() {
               to="https://santechapitool.vercel.app/"
               className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-semibold py-2 px-5 w-[90%] active:w-full lg:w-[50%] hover:lg:w-[80%] text-center rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:lg:scale-x-110 hover:brightness-110"
             >
-              Try API Tool <i className="fas fa-vial ps-2 text-base"></i>
+              Try API Client <i className="fas fa-vial ps-2 text-base"></i>
             </Link>
           </span>
         </span>
