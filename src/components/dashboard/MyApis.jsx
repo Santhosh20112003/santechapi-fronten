@@ -216,7 +216,7 @@ function Apis() {
         <div className="rounded-md p-5 mx-5 mt-5 bg-violet-200 border-2 border-violet-300">
           <span className="flex items-center flex-wrap justify-between">
             <h1 className="text-xl font-semibold ms-3 text-gray-800">Your API KEYS</h1>
-            <Tooltip.Provider>
+            {apiKeys.length > 0 && <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <AlertDialog.Root>
@@ -262,7 +262,7 @@ function Apis() {
                   </Tooltip.Content>
                 </Tooltip.Portal>
               </Tooltip.Root>
-            </Tooltip.Provider>
+            </Tooltip.Provider>}
           </span>
 
           {apiKeys.length > 0 ? (
@@ -273,7 +273,7 @@ function Apis() {
                   className={`flex w-full items-center rounded-md justify-end md:justify-between md:flex-nowrap flex-wrap gap-3 px-3 py-2 bg-gray-700`}
                 >
                   <p
-                    className={`text-sm w-fit break-all ${token.copied ? "text-white" : "text-white"
+                    className={`text-sm blur-[2px] cursor-text hover:blur-none w-fit break-all ${token.copied ? "text-white" : "text-white"
                       }`}
                   >
                     {token.key}
@@ -322,9 +322,58 @@ function Apis() {
               ))}
             </ul>
           ) : (
-            <div className="flex items-center mt-5 justify-center flex-col">
-              <img src={nokeyImage} alt="NO API KEY" className="w-44" />
-              <p className="text-base">Not Yet Created Anything...</p>
+            <div className="flex items-center my-6 justify-center flex-col">
+              <img src={'https://ik.imagekit.io/vituepzjm/APIHUB/undraw_code_typing_re_p8b9.svg?updatedAt=1728402976726'} alt="NO API KEY" className="w-36 mb-5" />
+              <h1 className="text-lg font-normal text-gray-600">Create Your First API Key Here..</h1>
+              <Tooltip.Provider>
+                <Tooltip.Root>
+                  <Tooltip.Trigger asChild>
+                    <AlertDialog.Root>
+                      <AlertDialog.Trigger asChild>
+                        <button className="text-white mt-3 px-3 py-2 active:scale-90 transition-all shadow-blackA4 hover:bg-violet-500 inline-flex items-center justify-center rounded-lg bg-violet-600 shadow-[0_2px_10px] outline-none focus:shadow-[0_0_0_2px] focus:shadow-black">
+                          Create Now
+                        </button>
+                      </AlertDialog.Trigger>
+                      <AlertDialog.Portal>
+                        <AlertDialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
+                        <AlertDialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%] z-50 rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+                          <AlertDialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+                            Are you absolutely sure?
+                          </AlertDialog.Title>
+                          <AlertDialog.Description className="text-mauve11 mt-4 mb-5 text-[15px] leading-normal">
+                            This will create your Api Key in our servers on behalf
+                            of <b>{user.email}</b>.
+                          </AlertDialog.Description>
+                          <div className="flex justify-end gap-[25px]">
+                            <AlertDialog.Action asChild>
+                              <button
+                                onClick={createApiKey}
+                                className="text-green-700 bg-green-200 hover:bg-green-300 focus:shadow-green-400 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
+                              >
+                                Create Api New Key
+                              </button>
+                            </AlertDialog.Action>
+                            <AlertDialog.Cancel asChild>
+                              <button className="text-mauve11 bg-mauve4 hover:bg-mauve5 focus:shadow-mauve7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
+                                Cancel
+                              </button>
+                            </AlertDialog.Cancel>
+                          </div>
+                        </AlertDialog.Content>
+                      </AlertDialog.Portal>
+                    </AlertDialog.Root>
+                  </Tooltip.Trigger>
+                  <Tooltip.Portal>
+                    <Tooltip.Content
+                      className="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-violet11 select-none rounded-[4px] bg-white px-[15px] py-[10px] text-[15px] leading-none shadow-md will-change-[transform,opacity]"
+                      sideOffset={5}
+                    >
+                      Add ApiKey
+                      <Tooltip.Arrow className="fill-white" />
+                    </Tooltip.Content>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+              </Tooltip.Provider>
             </div>
           )}
         </div>
@@ -332,7 +381,7 @@ function Apis() {
 
       <Toaster />
 
-      <div className="w-full flex mt-10 items-center justify-between">
+      {subscribedApis.length > 0 && <div className="w-full flex mt-10 items-center justify-between">
         <h1 className="text-2xl ms-5 md:block hidden font-semibold text-gray-700">
           Subscribed APIs
         </h1>
@@ -346,9 +395,9 @@ function Apis() {
               onChange={(e) => setSearchTerm(e.target.value)} disabled={subscribedApisLoading} type="search" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-violet-500 focus:border-violet-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-violet-500 dark:focus:border-violet-500" placeholder="Search For APIs .." />
           </div>
         </form>
-      </div>
+      </div>}
 
-      <span id="subscribed" className="">
+      <div id="subscribed" className="min-h-[40vh]">
         {subscribedApisLoading ? (
           <div className="mx-10 flex items-center justify-center mt-5 h-[40vh] bg-cover pb-4">
             <svg
@@ -460,12 +509,12 @@ function Apis() {
             </div>
           </div>
         ) : (
-          <div className="flex items-center py-5 my-5 justify-center flex-col">
+          <div className="flex items-center py-5 my-5 h-[40vh] justify-center flex-col">
             <img src={nosubsImage} alt="NO API KEY" className="w-44" />
             <p className="text-base">Not Yet Subscribed Anything...</p>
           </div>
         )}
-      </span>
+      </div>
     </div>
   );
 }
