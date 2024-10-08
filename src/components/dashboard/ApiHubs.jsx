@@ -62,8 +62,9 @@ function ApiHubs() {
   const subscribe = async (apiItem) => {
     console.log(apis)
     const isAdminUser = adminusers.includes(user.email);
-    const subscribedcount = apis.filter(api => api.subscribed == true);
-    const canSubscribe = subscribedcount.length <= 10 || isAdminUser;
+    const subscribedApisCount = apis.filter(api => api.subscribed).length;
+    const canSubscribe = subscribedApisCount < 10 || isAdminUser;
+
 
     if (!canSubscribe) {
       toast("You can only subscribe to up to 10 APIs");
