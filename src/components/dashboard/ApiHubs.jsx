@@ -60,31 +60,40 @@ function ApiHubs() {
   }, [user, updatedApi, setApiKeys]);
 
   const subscribe = async (apiItem) => {
-    if (apis.length <= 10 || adminusers.includes(user.email)) {
-      try {
-        const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: true } : api));
-        setApis(updatedApis);
+    console.log(apis)
+    const isAdminUser = adminusers.includes(user.email);
+    const subscribedcount = apis.filter(api => api.subscribed == true);
+    const canSubscribe = subscribedcount.length <= 10 || isAdminUser;
 
-        const response = await axios.post(`https://santechapi-backend.vercel.app/addSubscribeApi/${apiItem.name}`, { email: user.email }, { headers: { "Content-Type": "application/json", secret: secret } });
-
-        if (response.status === 200) {
-          setUpdatedApi(!updatedApi);
-          toast.success(`${apiItem.name} API is Subscribed`);
-        }
-
-      } catch (err) {
-        if (err.response && err.response.status === 403) {
-          toast("Create Api Key in order to Subscribe to an API");
-        } else {
-          toast.error(`Error occurred with ${err}`);
-        }
-      } finally {
-        const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: false } : api));
-        setApis(updatedApis);
-      }
+    if (!canSubscribe) {
+      toast("You can only subscribe to up to 10 APIs");
+      return;
     }
-    else {
-      toast("You can only subscribe upto 10 APIs");
+
+    const updateLoadingState = (isLoading) => {
+      setApis(apis.map(api => (api.name === apiItem.name ? { ...api, loading: isLoading } : api)));
+    };
+
+    try {
+      updateLoadingState(true);
+
+      const response = await axios.post(
+        `https://santechapi-backend.vercel.app/addSubscribeApi/${apiItem.name}`,
+        { email: user.email },
+        { headers: { "Content-Type": "application/json", secret: secret } }
+      );
+
+      if (response.status === 200) {
+        setUpdatedApi(prev => !prev); // toggle state for re-render
+        toast.success(`${apiItem.name} API is Subscribed`);
+      }
+    } catch (err) {
+      const errorMessage = err.response?.status === 403
+        ? "Create API Key in order to Subscribe to an API"
+        : `Error occurred with ${err.message}`;
+      toast.error(errorMessage);
+    } finally {
+      updateLoadingState(false);
     }
   };
 
