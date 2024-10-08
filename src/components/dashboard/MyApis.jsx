@@ -221,7 +221,7 @@ function Apis() {
                 <Tooltip.Trigger asChild>
                   <AlertDialog.Root>
                     <AlertDialog.Trigger asChild>
-                      <button className="text-white fas fa-plus active:scale-90 transition-all shadow-blackA4 hover:bg-violet-500 inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-violet-600 shadow-[0_2px_10px] outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"></button>
+                      <button className="text-white fas fa-plus active:scale-90 transition-all shadow-blackA4 hover:bg-violet-500 inline-flex h-[35px] w-[35px] items-center justify-center rounded-lg bg-violet-600 shadow-[0_2px_10px] outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"></button>
                     </AlertDialog.Trigger>
                     <AlertDialog.Portal>
                       <AlertDialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
