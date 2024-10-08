@@ -14,6 +14,13 @@ export const main_links = [
   { name: "Docs", link: "https://santech.gitbook.io/docs" },
 ];
 
+export const adminusers = [
+  "shanmugamsanthosh22@gmail.com",
+  "santhoshtechnologies22@gmail.com",
+  "prathikshapc.cse2021@dce.edu.in",
+  "varikuntaspandana.cse2021@dce.edu.in"
+]
+
 export const random_profile_img =
   "https://source.unsplash.com/random/1000x800/?nature";
 export const random_login_img =

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { secret } from "../common/links";
+import { adminusers, secret } from "../common/links";
 import nokey from "../assert/No data-cuate.svg";
 import toast, { Toaster } from 'react-hot-toast';
 import { useUserAuth } from "../context/UserAuthContext";
@@ -60,25 +60,31 @@ function ApiHubs() {
   }, [user, updatedApi, setApiKeys]);
 
   const subscribe = async (apiItem) => {
-    try {
-      const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: true } : api));
-      setApis(updatedApis);
+    if (apis.length <= 10 || adminusers.includes(user.email)) {
+      try {
+        const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: true } : api));
+        setApis(updatedApis);
 
-      const response = await axios.post(`https://santechapi-backend.vercel.app/addSubscribeApi/${apiItem.name}`, { email: user.email }, { headers: { "Content-Type": "application/json", secret: secret } });
+        const response = await axios.post(`https://santechapi-backend.vercel.app/addSubscribeApi/${apiItem.name}`, { email: user.email }, { headers: { "Content-Type": "application/json", secret: secret } });
 
-      if (response.status === 200) {
-        setUpdatedApi(!updatedApi);
-        toast.success(`${apiItem.name} API is Subscribed`);
+        if (response.status === 200) {
+          setUpdatedApi(!updatedApi);
+          toast.success(`${apiItem.name} API is Subscribed`);
+        }
+
+      } catch (err) {
+        if (err.response && err.response.status === 403) {
+          toast("Create Api Key in order to Subscribe to an API");
+        } else {
+          toast.error(`Error occurred with ${err}`);
+        }
+      } finally {
+        const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: false } : api));
+        setApis(updatedApis);
       }
-    } catch (err) {
-      if (err.response && err.response.status === 403) {
-        toast("Create Api Key in order to Subscribe to an API");
-      } else {
-        toast.error(`Error occurred with ${err}`);
-      }
-    } finally {
-      const updatedApis = apis.map(api => (api.name === apiItem.name ? { ...api, loading: false } : api));
-      setApis(updatedApis);
+    }
+    else {
+      toast("You can only subscribe upto 10 APIs");
     }
   };
 
