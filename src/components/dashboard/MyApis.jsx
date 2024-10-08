@@ -144,7 +144,9 @@ function Apis() {
 
       if (result.status === 200) {
         toast.success(`${api.name} Api unsubscribed Successfully`);
-        setSubscribedApis(subscribedApis.filter((_, i) => i !== index));
+        const newArr = subscribedApis.filter((_, i) => i !== index);
+        setFilteredApis(newArr);
+        setSubscribedApis(newArr);
       }
     } catch (error) {
       handleApiError(error);
