@@ -21,7 +21,7 @@ function LanguageImplementation() {
                                         <img src={currentImage} alt={lang.lang} className="h-5" />
                                         <h1 className="text-xl md:text-2xl font-bold">{lang.lang}</h1>
                                     </div>
-                                    <span className="hidden font-semibold sm:flex px-3 py-2 bg-violet-100 text-violet-800 rounded-lg">
+                                    <span className="hidden text-sm font-semibold sm:flex px-2.5 py-1.5 bg-violet-100 text-violet-800 rounded-lg">
                                         Weather API
                                     </span>
                                 </div>

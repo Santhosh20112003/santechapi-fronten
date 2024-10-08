@@ -10,11 +10,8 @@ export const main_links = [
   { name: "Home", link: "/home" },
   { name: "Api List", link: "/apilist" },
   { name: "Connect & cost", link: "/contact" },
-  { name: "API tool", link: "https://santechapitool.vercel.app/" },
-  {
-    name: "Docs",
-    link: "https://santech.gitbook.io/docs",
-  },
+  { name: "API Client", link: "https://santechapitool.vercel.app/" },
+  { name: "Docs", link: "https://santech.gitbook.io/docs" },
 ];
 
 export const random_profile_img =
