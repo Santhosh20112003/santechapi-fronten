@@ -55,7 +55,7 @@ function Hero() {
             >
               Get Started
             </Link>}
-            <button onClick={HandleShare} className="bg-gray-800 py-3 px-4 rounded-xl text-white" >
+            <button onClick={HandleShare} className="bg-gray-700 py-3 px-4 rounded-xl text-white" >
               <HiOutlineShare /></button>
           </div>
         </div>

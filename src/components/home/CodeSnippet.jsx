@@ -28,7 +28,7 @@ export default function CodeSnippet() {
       <div className="lg:w-1/2 w-full text-center md:text-left">
         <h1 className="text-5xl text-gray-700 font-bold flex items-center gap-3">
           Example Code
-          <i className="fas fa-terminal text-xl bg-gray-500 text-white p-2 rounded-md hidden lg:block"></i>
+          {/* <i className="fas fa-terminal text-lg bg-gray-500 text-white p-2 rounded-md hidden lg:block"></i> */}
         </h1>
         <p className="text-gray-500 mt-6 mb-8 leading-relaxed">
           SantechAPI is a free online REST API Hub offering pseudo-real data for website development without needing to run server-side code. Perfect for prototyping or integrating real-time data.

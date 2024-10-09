@@ -29,7 +29,7 @@ function List() {
       <div class="container px-5 py-12 mx-auto">
         <div class="flex flex-col text-center w-full mb-10">
           <h1 class="md:text-5xl text-4xl font-semibold title-font mb-4 text-gray-900">Recommended APIs</h1>
-          <p class="lg:w-2/3 mx-auto leading-relaxed text-sm md:text-base">APIs curated by Santech Api and recommended based on functionality offered, performance, and support!</p>
+          <p class="lg:w-2/3 mx-auto leading-relaxed text-sm md:text-base">APIs curated by Santech Api Hub and recommended based on functionality offered, performance, and support!</p>
         </div>
         {loading ? (<div className="mx-10 flex items-center justify-center bg-cover py-10">
           <svg

@@ -74,7 +74,7 @@ function Login() {
             alt="Your Company"
           />
           <h2 className="text-gray-600 text-center text-2xl font-semibold leading-9 tracking-tight  ">
-            Santech ApiHub
+            Santech API Hub
           </h2>
         </div>
         {err && <p className="mt-5 text-center text-red-500">{err}</p>}
@@ -82,7 +82,7 @@ function Login() {
           <form
             encType="multipart/form-data"
             onSubmit={HandleSubmit}
-            className="space-y-6"
+            className="space-y-4"
           >
             <div>
               <label
@@ -230,9 +230,9 @@ function Login() {
       </div>
       <div className="hidden overflow-y-hidden lg:block w-1/2 h-full">
         <img
-          src={"https://ik.imagekit.io/santech/APIHUB/premium_photo-1685082608490-6653d07fbca6.avif?updatedAt=1727121013230"}
+          src={"https://images.pexels.com/photos/265045/pexels-photo-265045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
           alt="banner"
-          className="brightness-75 w-full bg-gray-800 h-full object-fill"
+          className="brightness-75 w-full bg-gray-800 h-full object-cover"
         />
       </div>
     </div>

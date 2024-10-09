@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useUserAuth } from "../context/UserAuthContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 import { Link } from "react-router-dom";
 
 function Forgetpassword() {
@@ -12,12 +11,13 @@ function Forgetpassword() {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     setisloading(true);
+    toast.remove();
     try {
       await forgetpassword(email);
       setisloading(false);
-      toast("Email has been Sent Successfully.");
+      toast.success("Email has been Sent Successfully.");
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.message.replace("Firebase:", "").replace(".", "").replace("Error", ""));
       setisloading(false);
     }
     setisloading(false);
@@ -33,8 +33,8 @@ function Forgetpassword() {
         <i className="text-xl text-white fas fa-arrow-left font-bold"></i>
       </Link>
 
-      <div className=" flex items-center bg-[#ddd6fe70] border border-violet-300 rounded-xl justify-center mx-5 backdrop-blur-sm shadow-lg py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-2">
+      <div className=" flex items-center bg-violet-200 bg-opacity-50 border-2 border-violet-300 rounded-xl justify-center mx-5 backdrop-blur-sm shadow-lg py-12 px-6 lg:px-8">
+        <div className="max-w-lg w-full space-y-2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-24 drop-shadow-md"
@@ -43,17 +43,15 @@ function Forgetpassword() {
             />
           </div>
           <div>
-            <h2 className=" text-center text-2xl font-semibold text-gray-600">
-              Reset your password
+            <h2 className=" text-center text-2xl font-semibold text-gray-700">
+              Forgot Password?
             </h2>
 
-            <h2 className="mt-2 mb-5 text-center text-md font-normal text-gray-500">
-              If the account exists, we'll email you instructions to reset the
-              password.
+            <h2 className="mt-2 mb-5 text-center text-md font-normal text-gray-700">
+              No worries, we'll send you reser instructions.
             </h2>
           </div>
-
-          <form className="mt-8 space-y-6" onSubmit={handlePasswordSubmit}>
+          <form className=" space-y-4" onSubmit={handlePasswordSubmit}>
             <div>
               <label htmlFor="email" className="sr-only">
                 Email
@@ -62,8 +60,8 @@ function Forgetpassword() {
                 id="email"
                 name="email"
                 type="email"
-                className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email"
+                className="appearance-none placeholder:font-normal relative block w-full px-3 py-2 border border-gray-300 placeholder:text-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
+                placeholder="Enter your email"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -71,15 +69,14 @@ function Forgetpassword() {
               <span className="flex items-center justify-center">
                 <button
                   type="submit"
-                  className={`flex w-48 justify-center rounded-full bg-violet-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:-translate-y-1 shadow-xl transition-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 `}
+                  className={`flex w-full justify-center rounded-md bg-violet-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-xl transition-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 `}
                 >
                   <span className={`${isloading ? "hidden" : "flex"}`}>
-                    Send Recovery Email
+                    Reset password
                   </span>
                   <svg
-                    class={`  ${
-                      isloading ? "flex" : "hidden"
-                    } animate-spin h-5 w-5 text-white`}
+                    class={`  ${isloading ? "flex" : "hidden"
+                      } animate-spin h-5 w-5 text-white`}
                     fill="none"
                     viewBox="0 0 24 24"
                   >
@@ -99,11 +96,15 @@ function Forgetpassword() {
                   </svg>
                 </button>
               </span>
+
             </div>
           </form>
+          <div className="flex items-center justify-center">
+            <Link to="/login" className="mt-6 text-violet-700 font-medium text-sm underline underline-offset-2">Back to log in</Link>
+          </div>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

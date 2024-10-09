@@ -6,7 +6,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useUserAuth } from "../context/UserAuthContext";
 import { Link, useLocation } from "react-router-dom";
 import { genSearch } from "../common/methods";
-import { SiGooglegemini } from "react-icons/si";
 import { MdOutlineAutoAwesome } from "react-icons/md";
 import { BiSolidFileDoc } from "react-icons/bi";
 

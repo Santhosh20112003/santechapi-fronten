@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
   GithubAuthProvider,
+  sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
 
@@ -21,11 +22,50 @@ export function UserAuthContextProvider({ children }) {
   const [apiKeys, setApiKeys] = useState([]);
 
   function logIn(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+    return new Promise((resolve, reject) => {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((response) => {
+          if (response.user.emailVerified) {
+            resolve(response);
+          } else {
+            sendEmailVerification(auth.currentUser)
+              .then(() => {
+                reject({
+                  message:
+                    "Please verify your account via the email sent to you! (Check Spam Folder)",
+                });
+              })
+              .catch((error) => {
+                reject({
+                  message:
+                    "Unable to send verification email. Please try again.",
+                });
+              });
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
+
   function signUp(email, password) {
-    const result = createUserWithEmailAndPassword(auth, email, password);
-    return result;
+    return new Promise((resolve, reject) => {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((result) => {
+          sendEmailVerification(result.user)
+            .then(() => {
+              console.log(result);
+              resolve(result);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
   function logOut() {
     return signOut(auth);
@@ -69,7 +109,7 @@ export function UserAuthContextProvider({ children }) {
         setTitle,
         title,
         setApiKeys,
-        apiKeys
+        apiKeys,
       }}
     >
       {children}

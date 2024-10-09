@@ -10,13 +10,31 @@ function Register() {
   const [password, setPassword] = useState("");
   const { signUp, googleSignIn, GithubSignIn } = useUserAuth();
   const [err, setErr] = useState("");
+  const [errpass, setErrPass] = useState("");
   const navigate = useNavigate();
   const [isloading, setisloading] = useState(false);
+
+  const isStrongPassword = (pw) => {
+    return (
+      pw.length >= 8 &&
+      /[A-Z]/.test(pw) &&
+      /[a-z]/.test(pw) &&
+      /\d/.test(pw) &&
+      /[^A-Za-z0-9]/.test(pw)
+    );
+  };
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setErr("");
     setisloading(true);
+    if (!isStrongPassword(password)) {
+      setErrPass(
+        "Password must be at least 8 chars long, includes uppercase, lowercase, numbers, and special chars."
+      );
+      setisloading(false);
+      return;
+    }
     try {
       await signUp(email, password);
       toast.success("Your Account has been Created Succesfully !");
@@ -27,6 +45,7 @@ function Register() {
     }
     setisloading(false);
   };
+
   const GoogleSignIn = async () => {
     setErr("");
     setisloading(true);
@@ -70,12 +89,12 @@ function Register() {
       <div className="flex min-h-[100vh] w-full lg:w-1/2 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
-            className="mx-auto h-24 w-auto"
+            className="mx-auto h-20 w-auto"
             src={require("../assert/santechapi-logo.png")}
             alt="Your Company"
           />
-          <h2 className="text-gray-600 text-center text-2xl font-semibold leading-9 tracking-tight  ">
-            Santech ApiHub
+          <h2 className="text-gray-600 text-center text-xl font-semibold leading-9 tracking-tight  ">
+            Santech API Hub
           </h2>
         </div>
         {err && <p className="mt-5 text-center text-red-500">{err}</p>}
@@ -83,16 +102,16 @@ function Register() {
           <form
             encType="multipart/form-data"
             onSubmit={HandleSubmit}
-            className="space-y-6"
+            className="space-y-4"
           >
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-xs font-medium leading-4 text-gray-900"
               >
                 Email address
               </label>
-              <div className="mt-2">
+              <div className="mt-1">
                 <input
                   id="email"
                   onChange={(e) => {
@@ -110,12 +129,12 @@ function Register() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-xs font-medium leading-4 text-gray-900"
                 >
                   Password
                 </label>
               </div>
-              <div className="mt-2 relative">
+              <div className="mt-1 relative">
                 <input
                   id="password"
                   name="password"
@@ -133,7 +152,7 @@ function Register() {
                 />
               </div>
             </div>
-
+            {errpass && !err && <p className="mt-5 text-center text-red-500">{errpass}</p>}
             <div className="flex w-full items-center justify-center">
               <button
                 type="submit"
@@ -166,7 +185,7 @@ function Register() {
               </button>
             </div>
           </form>
-          <div class="flex flex-col mt-5 max-w-md space-y-5">
+          <div class="flex flex-col mt-5 max-w-md space-y-4">
             <div class="flex justify-center items-center">
               <span class="w-full border border-black"></span>
               <span class="px-4">Or</span>
@@ -209,7 +228,7 @@ function Register() {
               privacy-policy
             </Link>
           </p>
-          <p className="mt-3 text-center text-sm text-gray-500">
+          <p className="mt-2 text-center text-sm text-gray-500">
             Already have an account?
             <a
               href="/login"
