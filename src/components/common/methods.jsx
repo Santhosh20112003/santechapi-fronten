@@ -5,7 +5,7 @@ import {
 export const genSearch = async (term) => {
   try {
 
-    const genAI = new GoogleGenerativeAI("AIzaSyCOJUGQaUzTHEI6BPNU3a7t5flPvGKq0vE");
+    const genAI = new GoogleGenerativeAI("AIzaSyCc77YWKIdGlPcb5a-KBniZ_o1TrreQvQ4");
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-flash",
       systemInstruction: `You are a semantic search AI. 
