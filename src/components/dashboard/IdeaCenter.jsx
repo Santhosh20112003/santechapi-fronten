@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { IoArrowUpCircle, IoCopyOutline } from 'react-icons/io5';
+import { IoArrowUpCircle, IoCopyOutline, IoTrashOutline } from 'react-icons/io5';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import showdown from 'showdown';
 import { API_KEY } from '../common/links';
 import './chat.css';
+import { useUserAuth } from '../context/UserAuthContext';
 
 const converter = new showdown.Converter();
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -26,40 +27,72 @@ const STARTUP_CATEGORIES = [
   'Other'
 ];
 
-const transitionStyles = {
-  enter: "transform transition-all duration-500 ease-out",
-  enterFrom: "scale-95 opacity-0",
-  enterTo: "scale-100 opacity-100",
-  exitFrom: "scale-100 opacity-100",
-  exitTo: "scale-95 opacity-0",
-};
-
 function IdeaCenter() {
-  const [idea, setIdea] = useState({ name: '', category: '', details: '' });
-  const [conversation, setConversation] = useState([]);
+  const [ideas, setIdeas] = useState([]);
+  const [selectedIdeaIndex, setSelectedIdeaIndex] = useState(null);
+  const [newIdea, setNewIdea] = useState({ name: '', category: '', details: '' });
+  const { user } = useUserAuth();
   const [loading, setLoading] = useState(false);
-  const [generated, setGenerated] = useState(false);
+  const [activeTab, setActiveTab] = useState('ideas');
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [conversation]);
+    const savedIdeas = loadIdeas();
+    if (savedIdeas.length > 0) {
+      setIdeas(savedIdeas);
+      setSelectedIdeaIndex(0);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedIdeaIndex !== null && ideas[selectedIdeaIndex]) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedIdeaIndex, ideas]);
 
   const handleInputChange = (e) => {
-    setIdea({ ...idea, [e.target.name]: e.target.value });
+    setNewIdea({ ...newIdea, [e.target.name]: e.target.value });
+  };
+
+  const handleAddIdea = () => {
+    if (ideas.length >= 5) {
+      toast.error('You can only create up to 5 startup ideas!', { icon: '⚠️' });
+      return;
+    }
+    if (!newIdea.name || !newIdea.category || !newIdea.details) {
+      toast.error('Please fill in all fields!', { icon: '⚠️' });
+      return;
+    }
+    const initialMessage = { user: newIdea.details, bot: 'Hello! How can I assist you with your startup idea?' };
+    const newIdeas = [...ideas, { ...newIdea, conversation: [initialMessage] }];
+    setIdeas(newIdeas);
+    saveIdeas(newIdeas);
+    setNewIdea({ name: '', category: '', details: '' });
+    setSelectedIdeaIndex(newIdeas.length - 1);
+  };
+
+  const handleDeleteIdea = (index) => {
+    const updatedIdeas = ideas.filter((_, i) => i !== index);
+    setIdeas(updatedIdeas);
+    saveIdeas(updatedIdeas);
+    setSelectedIdeaIndex(updatedIdeas.length > 0 ? 0 : null);
   };
 
   const handleGenerate = async () => {
+    const idea = ideas[selectedIdeaIndex];
     if (!idea.name || !idea.category || !idea.details) {
       toast.error('Please fill in all fields!', { icon: '⚠️' });
       return;
     }
     setLoading(true);
     try {
-      const result = await model.generateContent(`Startup Idea: ${idea.name}\nCategory: ${idea.category}\nDetails: ${idea.details}`);
+      const history = idea.conversation.map(msg => `User: ${msg.user}\nBot: ${msg.bot}`).join('\n');
+      const result = await model.generateContent(`User: ${user.displayName}\nStartup Idea: ${idea.name}\nCategory: ${idea.category}\nDetails: ${idea.details}\nHistory:\n${history}`);
       const response = await result.response.text();
-      setConversation([{ user: idea.details, bot: response }]);
-      setGenerated(true);
+      const newConversation = [...idea.conversation, { user: idea.details, bot: response }];
+      const updatedIdeas = ideas.map((i, index) => index === selectedIdeaIndex ? { ...i, conversation: newConversation } : i);
+      setIdeas(updatedIdeas);
+      saveIdeas(updatedIdeas);
     } catch (error) {
       toast.error('Failed to generate response!', { icon: '❌' });
     } finally {
@@ -68,11 +101,24 @@ function IdeaCenter() {
   };
 
   const handleUserMessage = async (message) => {
+    if (!message.trim()) {
+      toast.error('Message cannot be empty!', { icon: '⚠️' });
+      return;
+    }
     setLoading(true);
     try {
-      const result = await model.generateContent(message);
+      const idea = ideas[selectedIdeaIndex];
+      const history = idea.conversation.map(msg => `User: ${msg.user}\nBot: ${msg.bot}`).join('\n');
+      const result = await model.generateContent(`User: ${user.displayName}\nMessage: ${message}\nHistory:\n${history}`);
       const response = await result.response.text();
-      setConversation([...conversation, { user: message, bot: response }]);
+      const updatedIdeas = ideas.map((i, index) => {
+        if (index === selectedIdeaIndex) {
+          return { ...i, conversation: [...i.conversation, { user: message, bot: response }] };
+        }
+        return i;
+      });
+      setIdeas(updatedIdeas);
+      saveIdeas(updatedIdeas);
     } catch (error) {
       toast.error('Failed to process message!', { icon: '❌' });
     } finally {
@@ -80,94 +126,142 @@ function IdeaCenter() {
     }
   };
 
+  const saveIdeas = (ideas) => {
+    localStorage.setItem('ideas', JSON.stringify(ideas));
+  };
+
+  const loadIdeas = () => {
+    const savedIdeas = localStorage.getItem('ideas');
+    return savedIdeas ? JSON.parse(savedIdeas) : [];
+  };
+
   return (
-    <div className="w-full h-[85vh] flex flex-col items-center justify-center p-5 bg-gray-100">
-      {!generated ? (
-        <div className="p-5 bg-white rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-3">What's your startup idea?</h2>
-          <input name="name" value={idea.name} onChange={handleInputChange} placeholder="Name" className="w-full p-2 border rounded mb-3" />
-          <select 
-            name="category" 
-            value={idea.category} 
-            onChange={handleInputChange} 
-            className="w-full p-2 border rounded mb-3"
+    <div className="w-full flex flex-col items-center justify-center p-5 bg-gray-100 h-[90vh] overflow-hidden">
+      <div className="w-full bg-white rounded-lg shadow-md p-5 flex flex-col h-full">
+        <div className="flex md:hidden mb-4">
+          <button
+            className={`flex-1 p-2 ${activeTab === 'ideas' ? 'bg-violet-600 text-white' : 'bg-gray-200'}`}
+            onClick={() => setActiveTab('ideas')}
           >
-            <option value="">Select Category</option>
-            {STARTUP_CATEGORIES.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-          <textarea name="details" value={idea.details} onChange={handleInputChange} placeholder="Detailed idea..." className="w-full p-2 border rounded mb-3"></textarea>
-          <button onClick={handleGenerate} disabled={loading} className="bg-violet-600 text-white px-4 py-2 rounded">
-            {loading ? 'Generating...' : 'Generate'}
+            Ideas
+          </button>
+          <button
+            className={`flex-1 p-2 ${activeTab === 'chat' ? 'bg-violet-600 text-white' : 'bg-gray-200'}`}
+            onClick={() => setActiveTab('chat')}
+            disabled={selectedIdeaIndex === null}
+          >
+            Chat
           </button>
         </div>
-      ) : (
-        <div className="w-full max-w-4xl h-full bg-white rounded-lg shadow-lg flex flex-col">
-          {/* Chat Header */}
-          <div className="p-4 border-b bg-violet-600 text-white rounded-t-lg">
-            <h2 className="text-xl font-semibold">AI Startup Assistant</h2>
-            <p className="text-sm opacity-90">Discussing: {idea.name} ({idea.category})</p>
+        <div className="flex flex-col md:flex-row h-full">
+          <div className={`w-full md:w-1/3 flex flex-col p-4 border-r ${activeTab === 'ideas' ? 'block' : 'hidden md:block'}`}>
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-xl font-semibold">Startup Ideas</h2>
+              <span className="text-sm text-gray-600">({ideas.length}/5)</span>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <div className="flex flex-col space-y-2">
+                {ideas.map((idea, index) => (
+                  <button key={index} onClick={() => { setSelectedIdeaIndex(index); setActiveTab('chat'); }} className={`p-2 rounded ${selectedIdeaIndex === index ? 'bg-violet-600 text-white' : 'bg-gray-200'}`}>
+                    {idea.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="mt-5">
+              <h2 className="text-xl font-semibold mb-3">Add a New Startup Idea</h2>
+              <div className="flex flex-col space-y-2">
+                <input name="name" value={newIdea.name} onChange={handleInputChange} placeholder="Name" className="p-2 border rounded" />
+                <select name="category" value={newIdea.category} onChange={handleInputChange} className="p-2 border rounded">
+                  <option value="">Select Category</option>
+                  {STARTUP_CATEGORIES.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+                <textarea name="details" value={newIdea.details} onChange={handleInputChange} placeholder="Detailed idea..." className="p-2 border rounded"></textarea>
+                <button onClick={handleAddIdea} className="bg-violet-600 text-white px-4 py-2 rounded">Add Idea</button>
+              </div>
+            </div>
           </div>
-
-          {/* Chat Messages */}
-          <div className="flex-1 overflow-auto p-4 space-y-4">
-            {conversation.map((msg, index) => (
-              <div key={index} className="space-y-3">
-                <div className="flex justify-end">
-                  <div className="bg-violet-100 p-4 rounded-lg max-w-[80%] shadow-sm">
-                    <p className="text-sm text-violet-600 font-medium mb-1">You</p>
-                    <div className="prose prose-sm" 
-                      dangerouslySetInnerHTML={{ __html: converter.makeHtml(msg.user) }} 
-                    />
+          <div className={`w-full md:w-2/3 p-4 flex flex-col ${activeTab === 'chat' ? 'block' : 'hidden md:block'}`}>
+            {selectedIdeaIndex !== null && ideas[selectedIdeaIndex] ? (
+              <div className="w-full bg-white rounded-lg shadow-md flex flex-col transition-all duration-500 ease-out h-full">
+                <div className="p-4 border-b bg-violet-600 text-white rounded-t-lg flex justify-between items-center">
+                  <div>
+                    <h2 className="text-xl font-semibold">{ideas[selectedIdeaIndex].name} ({ideas[selectedIdeaIndex].category})</h2>
                   </div>
+                  <button onClick={() => handleDeleteIdea(selectedIdeaIndex)} className="bg-white text-red-600 rounded-lg p-2">
+                    <IoTrashOutline className="text-lg" />
+                  </button>
                 </div>
-                <div className="flex justify-start">
-                  <div className="bg-white border border-gray-200 p-4 rounded-lg max-w-[80%] shadow-sm">
-                    <p className="text-sm text-gray-600 font-medium mb-1">AI Assistant</p>
-                    <div className="prose prose-sm"
-                      dangerouslySetInnerHTML={{ __html: converter.makeHtml(msg.bot) }}
+                <div className="flex-1 overflow-auto p-4 space-y-4">
+                  {ideas[selectedIdeaIndex].conversation.map((msg, index) => (
+                    <div key={index} className="space-y-3">
+                      <div className="flex justify-end items-start">
+                        <div className="flex items-center space-x-2">
+                          <div className="text-right">
+                            <p className="text-sm text-violet-600 font-medium">{user.displayName}</p>
+                            <div className="bg-violet-100 p-4 rounded-lg max-w-[80%] shadow-sm">
+                              <div className="prose prose-sm" dangerouslySetInnerHTML={{ __html: converter.makeHtml(msg.user) }} />
+                            </div>
+                          </div>
+                          <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full" />
+                        </div>
+                      </div>
+                      <div className="flex justify-start items-start">
+                        <div className="flex items-center space-x-2">
+                          <img src="https://ik.imagekit.io/vituepzjm/Jarvis.png" alt="Bot" className="w-10 h-10 rounded-full" />
+                          <div>
+                            <p className="text-sm text-gray-600 font-medium">Jarvis AI</p>
+                            <div className="bg-gray-100 p-4 rounded-lg max-w-[80%] shadow-sm">
+                              <div className="prose prose-sm" dangerouslySetInnerHTML={{ __html: converter.makeHtml(msg.bot) }} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
+                <div className="p-4 border-t rounded-b-2xl bg-gray-50">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleUserMessage(e.target.message.value);
+                      e.target.reset();
+                    }}
+                    className="flex items-center gap-2"
+                  >
+                    <input
+                      name="message"
+                      placeholder="Ask follow-up questions about your startup idea..."
+                      className="flex-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                      disabled={loading}
                     />
-                  </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="text-violet-600 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {loading ? (
+                        <span className="inline-block animate-spin">⏳</span>
+                      ) : (
+                        <IoArrowUpCircle className="text-4xl" />
+                      )}
+                    </button>
+                  </form>
                 </div>
               </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Chat Input */}
-          <div className="p-4 border-t bg-gray-50">
-            <form 
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleUserMessage(e.target.message.value);
-                e.target.reset();
-              }}
-              className="flex items-center gap-2"
-            >
-              <input
-                name="message"
-                placeholder="Ask follow-up questions about your startup idea..."
-                className="flex-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-                disabled={loading}
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="text-violet-600 rounded-lg transition-colors disabled:opacity-50"
-              >
-                {loading ? (
-                  <span className="inline-block animate-spin">⏳</span>
-                ) : (
-                  <IoArrowUpCircle className="text-4xl" />
-                )}
-              </button>
-            </form>
+            ) : (
+              <div className="w-full bg-white rounded-lg shadow-md flex flex-col items-center justify-center h-full">
+                <p className="text-gray-500">No startup ideas created yet. Add a new startup idea to get started!</p>
+              </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
       <Toaster />
     </div>
   );
