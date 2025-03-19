@@ -250,7 +250,7 @@ function IdeaCenter() {
                     <IoTrashOutline className="text-lg" />
                   </button>
                 </div>
-                <div className="flex-1 overflow-auto p-4 space-y-4 max-h-[40vh] lg:max-h-[calc(100vh-200px)] md:h-auto">
+                <div className="flex-1 overflow-auto p-4 space-y-4 max-h-[50vh] lg:max-h-[calc(100vh-200px)] md:h-auto">
                   {ideas[selectedIdeaIndex].conversation.map((msg, index) => (
                     <div key={index} className="space-y-3">
                       <div className="w-full flex items-start justify-end gap-2.5">
