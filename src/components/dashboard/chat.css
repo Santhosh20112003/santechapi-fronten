@@ -1,6 +1,6 @@
 .jarvis pre {
     margin: 12px 0;
-    background: #1a1a1a;
+    background: #1a1a1a !important;
     padding: 10px;
     border-radius: 10px;
     color: #fff;
@@ -10,7 +10,7 @@
   }
   
   .jarvis code {
-    background: #1a1a1a;
+    background: #1a1a1a !important;
     padding: 5px;
     border-radius: 10px;
     color: #fff;
@@ -30,7 +30,7 @@
   }
   
   .jarvis pre > code {
-    background: #1a1a1a;
+    background: #1a1a1a !important;
     color: #fff;
     padding: 5px;
     border-radius: 10px;
