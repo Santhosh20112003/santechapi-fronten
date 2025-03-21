@@ -7,9 +7,10 @@ import {
   HarmCategory,
 } from "@google/generative-ai";
 import showdown from "showdown";
-import { API_KEY } from "../common/links";
+import { API_KEY, apis, secret } from "../common/links";
 import { useUserAuth } from "../context/UserAuthContext";
 import { FaGear } from "react-icons/fa6";
+import axios from "axios";
 
 const converter = new showdown.Converter();
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -29,13 +30,38 @@ const generationConfig = {
       apissuggested: {
         type: "array",
         items: {
-          type: "string",
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+            },
+            apiurl: {
+              type: "string",
+            },
+            docs_url: {
+              type: "string",
+            },
+            capabilities: {
+              type: "string",
+            },
+            description: {
+              type: "string",
+            },
+          },
+          required: [
+            "name",
+            "apiurl",
+            "docs_url",
+            "capabilities",
+            "description",
+          ],
         },
       },
     },
     required: ["explanation"],
   },
 };
+
 const safetySettings = [
   {
     category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -71,39 +97,6 @@ const STARTUP_CATEGORIES = [
   "Other",
 ];
 
-// New constant with API details for mapping
-const APIS = [
-  {
-    name: "Weather API",
-    apiurl: "https://santechapi.vercel.app/weather/location/chennai",
-    docs_url: "https://santech.gitbook.io/docs/weather-api",
-    capabilities: "Real-time weather data, forecasts, and conditions",
-    description: "API for real-time weather data, forecasts, and conditions",
-  },
-  {
-    name: "Ecommerce API",
-    apiurl: "https://santechapi.vercel.app/ecommerce",
-    docs_url: "https://santech.gitbook.io/docs/ecommerce-api",
-    capabilities: "Sample ECommerce products and their details",
-    description: "API for Sample ECommerce products and their Details",
-  },
-  {
-    name: "Quotes API",
-    apiurl: "https://santechapi.vercel.app/quotes",
-    docs_url: "https://santech.gitbook.io/docs/quotes-api",
-    capabilities: "Inspirational and notable sayings",
-    description: "API for famous quotes: inspirational and notable sayings",
-  },
-  {
-    name: "Jarvis AI API",
-    apiurl: "https://santechapi.vercel.app/jarvis/chat/Hi",
-    docs_url: "https://santech.gitbook.io/docs/jarvis-ai-api",
-    capabilities: "Generative AI assistant",
-    description: "API for Gemini Flash generative AI assistant: tasks and queries",
-  },
-  // ... add other APIs as needed ...
-];
-
 function IdeaCenter() {
   const [ideas, setIdeas] = useState([]);
   const [selectedIdeaIndex, setSelectedIdeaIndex] = useState(null);
@@ -112,6 +105,7 @@ function IdeaCenter() {
     category: "",
     details: "",
   });
+  const [APIS, setApis] = useState([]);
   const { user } = useUserAuth();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("ideas");
@@ -124,6 +118,27 @@ function IdeaCenter() {
       setSelectedIdeaIndex(0);
     }
   }, []);
+
+  useEffect(() => {
+    const fetchApis = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.post(
+          "https://santechapi-backend.vercel.app/getallapis",
+          { email: user.email },
+          { headers: { "Content-Type": "application/json", secret } }
+        );
+        const updatedApis = data.map((api) => ({ ...api, loading: false }));
+        setApis(updatedApis);
+      } catch (error) {
+        console.error("Error fetching APIs:", error);
+        setApis([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApis();
+  }, [user]);
 
   useEffect(() => {
     if (selectedIdeaIndex !== null && ideas[selectedIdeaIndex]) {
@@ -171,12 +186,13 @@ function IdeaCenter() {
     setLoading(true);
     try {
       const idea = ideas[selectedIdeaIndex];
-      const history = idea.conversation
-        .map((item) => [
-          { role: "user", parts: [{ text: item.user }] },
-          { role: "model", parts: [{ text: item.bot }] },
-        ])
-        .flat() || [];
+      const history =
+        idea.conversation
+          .map((item) => [
+            { role: "user", parts: [{ text: item.user }] },
+            { role: "model", parts: [{ text: item.bot }] },
+          ])
+          .flat() || [];
       const modelInstance = genAI.getGenerativeModel({
         model: "gemini-2.0-flash-lite",
         systemInstruction: `
@@ -185,11 +201,7 @@ function IdeaCenter() {
         Startup Name : ${idea.name}
         Idea Category : ${idea.category}
         Idea Details : ${idea.details}
-        [
-            { "name": "Weather API", "apiurl": "https://santechapi.vercel.app/weather/location/chennai", "docs_url": "https://santech.gitbook.io/docs/weather-api", "capabilities": "Real-time weather data, forecasts, and conditions", "description": "API for real-time weather data" },
-            // ...other APIs...
-            { "name": "Jarvis AI API", "apiurl": "https://santechapi.vercel.app/jarvis/chat/Hi", "docs_url": "https://santech.gitbook.io/docs/jarvis-ai-api", "capabilities": "Generative AI assistant", "description": "API for tasks and queries" }
-        ]
+        ${apis}
         Please provide a detailed framework with implementation steps, best practices, potential pitfalls, and aligning API features with business objectives.
       `,
       });
@@ -201,10 +213,13 @@ function IdeaCenter() {
       const result = await chatSession.sendMessage(message);
       const response = await result.response;
       if (response.status === "blocked") {
-        toast.error("Unable to process request due to potentially harmful content!", {
-          position: "top-center",
-          icon: "❌",
-        });
+        toast.error(
+          "Unable to process request due to potentially harmful content!",
+          {
+            position: "top-center",
+            icon: "❌",
+          }
+        );
         throw new Error("Response blocked");
       }
       const resText = await response.text();
@@ -217,7 +232,12 @@ function IdeaCenter() {
             ...i,
             conversation: [
               ...i.conversation,
-              { user: message, bot: explanation, apissuggested, timestamp: new Date().toISOString() },
+              {
+                user: message,
+                bot: explanation,
+                apissuggested,
+                timestamp: new Date().toISOString(),
+              },
             ],
           };
         }
@@ -300,7 +320,7 @@ function IdeaCenter() {
                 )}
               </div>
             </div>
-            <div className="mt-5">
+            <div className="mt-2">
               <h2 className="text-xl font-semibold mb-3">
                 Add a New Startup Idea
               </h2>
@@ -329,9 +349,9 @@ function IdeaCenter() {
                   name="details"
                   value={newIdea.details}
                   onChange={handleInputChange}
-                  rows={ideas.length > 0 ? 2 : 6}
+                  rows={2}
                   placeholder="Detailed idea..."
-                  className="p-2 border mb-4 rounded"
+                  className="p-2 border mb-2 rounded"
                 ></textarea>
                 <button
                   onClick={handleAddIdea}
@@ -366,7 +386,6 @@ function IdeaCenter() {
                 <div className="flex-1 overflow-auto p-4 space-y-4 max-h-[40vh] lg:max-h-[calc(100vh-200px)] md:h-auto">
                   {ideas[selectedIdeaIndex].conversation.map((msg, index) => (
                     <div key={index} className="space-y-3">
-                      {/* User Message */}
                       <div className="w-full flex items-start justify-end gap-2.5">
                         <img
                           className="w-8 h-8 mt-2 ms-12 rounded-full"
@@ -374,21 +393,24 @@ function IdeaCenter() {
                           alt="User"
                         />
                         <div className="flex flex-col w-auto p-4 border-gray-200 bg-violet-100 rounded-lg shadow">
-                          <div className="flex justify-between mb-1">
-                            <span className="text-sm font-semibold text-gray-900">{user.displayName}</span>
+                          <div className="flex justify-between gap-3 items-center mb-1">
+                            <span className="text-sm font-semibold text-gray-900">
+                              {user.displayName}
+                            </span>
                             {msg.timestamp && (
                               <span className="text-xs text-gray-500">
-                                {new Date(msg.timestamp).toLocaleTimeString()}
+                                {new Date(msg.timestamp).toLocaleTimeString(
+                                  [],
+                                  { hour: "2-digit", minute: "2-digit" }
+                                )}
                               </span>
                             )}
                           </div>
-                          <div
-                            className="text-sm text-gray-800"
-                            dangerouslySetInnerHTML={{ __html: converter.makeHtml(msg.user) }}
-                          />
+                          <p className="text-sm max-w-[400px] text-gray-800">
+                            {msg.user}
+                          </p>
                         </div>
                       </div>
-                      {/* Bot Message */}
                       <div className="flex items-start gap-2.5">
                         <img
                           className="w-8 h-8 mt-2 bg-[#050f20] p-1 rounded-full"
@@ -397,36 +419,47 @@ function IdeaCenter() {
                         />
                         <div className="flex flex-col w-auto p-4 border-gray-200 bg-gray-100 rounded-lg shadow">
                           <div className="flex justify-between mb-1">
-                            <span className="text-sm font-semibold text-gray-900">Jarvis AI</span>
+                            <span className="text-sm font-semibold text-gray-900">
+                              Jarvis AI
+                            </span>
                             {msg.timestamp && (
                               <span className="text-xs text-gray-500">
-                                {new Date(msg.timestamp).toLocaleTimeString()}
+                                {new Date(msg.timestamp).toLocaleTimeString(
+                                  [],
+                                  { hour: "2-digit", minute: "2-digit" }
+                                )}
                               </span>
                             )}
                           </div>
                           <div
                             className="text-sm text-gray-800"
-                            dangerouslySetInnerHTML={{ __html: converter.makeHtml(msg.bot) }}
+                            dangerouslySetInnerHTML={{
+                              __html: converter.makeHtml(msg.bot),
+                            }}
                           />
-                          {msg.apissuggested && msg.apissuggested.length > 0 && (
-                            <div className="mt-3 p-4 bg-white border rounded-lg shadow-md">
-                              <h3 className="text-sm font-bold text-violet-600 mb-2">Suggested APIs:</h3>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {msg.apissuggested.map((apiName, idx) => {
-                                  const apiDetail = APIS.find((api) => api.name === apiName);
-                                  return (
-                                    <div key={idx} className="p-3 border rounded-lg bg-violet-50">
-                                      <h4 className="text-xs font-semibold text-gray-800">
-                                        {apiDetail ? apiDetail.name : apiName}
-                                      </h4>
-                                      {apiDetail && (
+                          {msg?.apissuggested &&
+                            msg?.apissuggested.length > 0 && (
+                              <div className="mt-3 p-4 bg-white border rounded-lg shadow-md">
+                                <h3 className="text-sm font-bold text-violet-600 mb-3">
+                                  Suggested APIs:
+                                </h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                  {msg?.apissuggested.map((apiName, idx) => {
+                                    return (
+                                      <div
+                                        key={idx}
+                                        className="p-3 border rounded-lg bg-violet-50"
+                                      >
+                                        <h4 className="text-xs font-semibold text-gray-800">
+                                          {apiName?.name}
+                                        </h4>
                                         <>
                                           <p className="text-[10px] text-gray-700">
-                                            {apiDetail.description}
+                                            {apiName?.description}
                                           </p>
                                           <div className="flex items-center space-x-2 mt-1">
                                             <a
-                                              href={apiDetail.docs_url}
+                                              href={apiName?.docs_url}
                                               target="_blank"
                                               rel="noopener noreferrer"
                                               className="text-[10px] text-blue-600 underline"
@@ -435,13 +468,12 @@ function IdeaCenter() {
                                             </a>
                                           </div>
                                         </>
-                                      )}
-                                    </div>
-                                  );
-                                })}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
                         </div>
                       </div>
                     </div>
@@ -479,7 +511,6 @@ function IdeaCenter() {
               </div>
             ) : (
               <div className="w-full bg-white rounded-lg  flex flex-col items-center justify-center h-full">
-                
                 <p className="text-gray-500">
                   No startup ideas created yet. Add a new startup idea to get
                   started!

@@ -88,17 +88,23 @@ function Home() {
               API Hub <i className="fas fa-igloo"></i>
             </Link>
           </span>
-          <span className="flex items-center justify-center">
+          <span className="flex flex-col md:flex-row items-center gap-5 justify-center">
             <Link target="_blank"
               to="https://santechapitool.vercel.app/"
-              className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-semibold py-2 px-5 w-[90%] active:w-full lg:w-[50%] hover:lg:w-[80%] text-center rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:lg:scale-x-110 hover:brightness-110"
+              className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-semibold py-2 px-5 w-[90%] active:w-full lg:w-[50%] hover:lg:w-[80%] text-center rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:lg:scale-x-110 hover:brightness-110"
             >
-              Try API Client <i className="fas fa-vial ps-2 text-base"></i>
+              Try API Client <i className="fas fa-gears ps-2 text-base"></i>
+            </Link>
+            <Link target="_blank"
+              to="/dashboard/ideacenter"
+              className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-semibold py-2 px-5 w-[90%] active:w-full lg:w-[50%] hover:lg:w-[80%] text-center rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:lg:scale-x-110 hover:brightness-110"
+            >
+              Try Idea Labs <i className="fas fa-vial ps-2 text-base"></i>
             </Link>
           </span>
         </span>
         <span className=" hidden lg:flex">
-          <img src={hello} alt="" className="w-96	" />
+          <img src={hello} alt="" className=" w-64 xl:w-96	" />
         </span>
       </div>
       <span className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 py-16 mx-auto md:mx-0 md:px-10">
