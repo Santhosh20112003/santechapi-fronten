@@ -35,13 +35,7 @@ const generationConfig = {
             name: {
               type: "string",
             },
-            apiurl: {
-              type: "string",
-            },
             docs_url: {
-              type: "string",
-            },
-            capabilities: {
               type: "string",
             },
             description: {
@@ -50,10 +44,26 @@ const generationConfig = {
           },
           required: [
             "name",
-            "apiurl",
             "docs_url",
-            "capabilities",
-            "description",
+            "description"
+          ],
+        },
+      },
+      otherapis: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+            },
+            description: {
+              type: "string",
+            },
+          },
+          required: [
+            "name",
+            "description"
           ],
         },
       },
@@ -198,11 +208,13 @@ function IdeaCenter() {
         systemInstruction: `
         You are a Senior Business Intelligence Head named Jarvis AI with extensive experience in mentoring startups using SanTechApiHub's APIs.
         Provide detailed implementation ideas. Do NOT include any code; only provide a comprehensive framework.
-        Startup Name : ${idea.name}
-        Idea Category : ${idea.category}
-        Idea Details : ${idea.details}
-        ${apis}
+        Startup Name: ${idea.name}
+        Idea Category: ${idea.category}
+        Idea Details: ${idea.details}
+        ${JSON.stringify(APIS)}
         Please provide a detailed framework with implementation steps, best practices, potential pitfalls, and aligning API features with business objectives.
+        Always give the suggested APIs in the response only from the APIs listed above with the same API name if necessary. If you want to suggest any other API, include it as "otherapis" in the response with a valid apiurl and docs_url.
+        Always provide the suggested APIs and other APIs list in the first chat. For subsequent chats, only include these lists if it is really important.
       `,
       });
       const chatSession = await modelInstance.startChat({
@@ -226,6 +238,7 @@ function IdeaCenter() {
       const data = JSON.parse(resText);
       const explanation = data.explanation;
       const apissuggested = data.apissuggested || [];
+      const otherapis = data.otherapis || [];
       const updatedIdeas = ideas.map((i, index) => {
         if (index === selectedIdeaIndex) {
           return {
@@ -236,6 +249,7 @@ function IdeaCenter() {
                 user: message,
                 bot: explanation,
                 apissuggested,
+                otherapis,
                 timestamp: new Date().toISOString(),
               },
             ],
@@ -243,6 +257,7 @@ function IdeaCenter() {
         }
         return i;
       });
+      console.log("updatedIdeas", updatedIdeas);
       setIdeas(updatedIdeas);
       saveIdeas(updatedIdeas);
     } catch (error) {
@@ -441,7 +456,7 @@ function IdeaCenter() {
                             msg?.apissuggested.length > 0 && (
                               <div className="mt-3 p-4 bg-white border rounded-lg shadow-md">
                                 <h3 className="text-sm font-bold text-violet-600 mb-3">
-                                  Suggested APIs:
+                                  Suggested Santech APIs:
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                   {msg?.apissuggested.map((apiName, idx) => {
@@ -467,6 +482,34 @@ function IdeaCenter() {
                                               Docs
                                             </a>
                                           </div>
+                                        </>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+
+                          {msg?.otherapis &&
+                            msg?.otherapis.length > 0 && (
+                              <div className="mt-3 p-4 bg-white border rounded-lg shadow-md">
+                                <h3 className="text-sm font-bold text-violet-600 mb-3">
+                                  Other APIs:
+                                </h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                  {msg?.otherapis.map((apiName, idx) => {
+                                    return (
+                                      <div
+                                        key={idx}
+                                        className="p-3 border rounded-lg bg-violet-50"
+                                      >
+                                        <h4 className="text-xs font-semibold text-gray-800">
+                                          {apiName?.name}
+                                        </h4>
+                                        <>
+                                          <p className="text-[10px] text-gray-700">
+                                            {apiName?.description}
+                                          </p>
                                         </>
                                       </div>
                                     );

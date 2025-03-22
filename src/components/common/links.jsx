@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const baseUrl = "https://santechapi-backend.vercel.app";
 export const links = [
   { name: "My Space", link: "apis", icon: "fas fa-grip text-xl" },
@@ -104,6 +106,21 @@ export const apilist = [
     img: "https://source.unsplash.com/random/1000x600/?currency",
   },
 ];
+
+export const fetchPublicApis = async (category) => {
+  try {
+    const response = await axios.get('https://api.publicapis.org/entries', {
+      params: {
+        category: category,
+        https: 1
+      }
+    });
+    return response.data.entries;
+  } catch (error) {
+    console.error('Error fetching public APIs:', error);
+    return [];
+  }
+};
 
 export const fontendlang = [
   {
